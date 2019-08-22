@@ -14,7 +14,7 @@
                     <div class="col-md-12 text-right">
                                 <label class="btn btn btn-outline-danger" id="Saldo"></label>
                                
-                            </div>
+                    </div>
                         <form id="FrmSalvarTicket" method="post" action="" enctype="multipart/form-data">
                             
                             <div class="col-md-12">

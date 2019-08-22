@@ -68,19 +68,22 @@ switch ($acao) {
 case 'Busca_Historico_Tabela':
 
         if ($_SESSION['NIVEL'] == 'G') {
-           
-            $Fiscal = $_SESSION['ID_USUARIO'];
-            $stmt1 = $pdo->prepare('SELECT SUM(T.VALOR) AS VLVALOR FROM localfiscal L ,ticket T WHERE T.ID_LOCALFISCAL=L.IDLOCALFISCAL 
-            AND L.ID_FISCAL LIKE :idfiscal');
-            $stmt1->bindParam(':idfiscal', $Fiscal);
+            $DataHj = date('Y-m-d');
+            $Guardador = $_SESSION['ID_USUARIO'];
+            $stmt1 = $pdo->prepare('SELECT SUM(VALOR) AS VlValor FROM ticket WHERE ID_GUARDADOR = :guardador  AND 
+            DATAENT = :dataent ');
+            $stmt1->bindParam(':guardador', $Guardador);
+            $stmt1->bindParam(':dataent', $DataHj);
             $stmt1->execute();
-            $linhavl = $stm1t->fetch() ;
-            $Saldo = 'Total de Venda de R$ ' . number_format($linhavl['VLVALOR'], 2, ",", "");
+            $linha1 = $stmt1->fetch();
+            $Saldo = 'Venda Diária R$ ' . number_format($linha1['VlValor'], 2, ",", "");
+
 
             $stmt = $pdo->prepare('SELECT T.STATUS,L.IDLOCALFISCAL,T.PLACA,T.DATAENT,T.HORAENT,T.DATASAIDA,T.HORASAIDA,T.IDTICKET
             FROM localfiscal L ,ticket T WHERE T.ID_LOCALFISCAL=L.IDLOCALFISCAL 
-            AND L.ID_FISCAL LIKE :idfiscal ORDER BY T.IDTICKET ASC');
-            $stmt->bindParam(':idfiscal', $Fiscal);
+            AND L.ID_FISCAL LIKE :idfiscal AND T.DATAENT=:dataent ORDER BY T.IDTICKET ASC');
+            $stmt->bindParam(':idfiscal', $Guardador);
+           $stmt->bindParam(':dataent', $DataHj);
             $executa = $stmt->execute();
             $Ticket = array();
             while ($linha = $stmt->fetch()) {
@@ -126,10 +129,9 @@ case 'Busca_Historico_Tabela':
             }
         }
 
-       // $Resultado['Saldo'] = $Saldo;
+        $Resultado['Venda'] = $Saldo;
         $Resultado['Html'] = $Ticket;
         echo json_encode($Resultado);
-
 
         break;
 
@@ -207,8 +209,8 @@ case 'Salva_Ticket':
             if ($Qtdli = $stmtpla->rowCount() == 0) {
 
                 // Prepara uma senten�a para ser executada
-                $statement = $pdo->prepare('INSERT INTO ticket (ID_TAXA,PLACA,ID_FORMAPG,ID_LOCALFISCAL,DATAENT,HORAENT,
-                            DATASAIDA,HORASAIDA,VALOR,ID_LIBERAR,DH_LIBERA,STATUS,CODTICKET,EVASAO) VALUES (:idtaxa,:placa,:formapg,:localfiscal,:dataent,:horaent,:datasaida,:horasaida,
+                $statement = $pdo->prepare('INSERT INTO ticket (ID_TAXA,PLACA,ID_FORMAPG,ID_GUARDADOR,ID_LOCALFISCAL,DATAENT,HORAENT,
+                            DATASAIDA,HORASAIDA,VALOR,ID_LIBERAR,DH_LIBERA,STATUS,CODTICKET,EVASAO) VALUES (:idtaxa,:placa,:formapg,:idguardador,:localfiscal,:dataent,:horaent,:datasaida,:horasaida,
                             :valor,:idfiscal,:dhlibera,:status,:codticket,:idevasao)');
 
                 // Adiciona os dados acima para serem executados na senten�a
@@ -217,6 +219,7 @@ case 'Salva_Ticket':
                 $statement->bindParam(':placa', $Placa);
                 $statement->bindParam(':formapg', $FormaPg);
                 $statement->bindParam(':localfiscal', $LocalFiscal);
+                $statement->bindParam(':idguardador', $IdUsuario);
                 $statement->bindParam(':valor', $Valor);
                 $statement->bindParam(':dataent', $DataEnt);
                 $statement->bindParam(':horaent', $HoraEnt);

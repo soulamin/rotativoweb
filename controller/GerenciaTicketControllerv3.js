@@ -46,7 +46,7 @@ $(document).on("click", ".btnLiberarVaga", function() {
 $(document).off("click", ".btnAlterarLocal");
 $(document).on("click", ".btnAlterarLocal", function() {
    $('#AlteraLocal').modal('show');
-  $('#Txt_IdTicket').val($(this).attr('codigo'));
+  $('#ATxt_IdTicket').val($(this).attr('codigo'));
   Combobox_Local();
 
 });

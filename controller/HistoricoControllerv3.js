@@ -127,11 +127,12 @@ function BuscaHistoricoTabela() {
 		acao : 'Busca_Historico_Tabela',
 		
 	},function(data) {
-		$("#Saldo").html(data['Saldo']);
+	
 		tabelaBuscaHistorico.clear();
         for (var i = 0; i < data['Html'].length; i++) {
             tabelaBuscaHistorico.row.add([data['Html'][i]['Placa'],data['Html'][i]['DataHora'],data['Html'][i]['Status']]);
-        }
+		}
+		$("#VlVenda").html(data['Venda']);
 		tabelaBuscaHistorico.draw();
     }, "json");
 

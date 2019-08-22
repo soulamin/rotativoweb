@@ -172,7 +172,7 @@ switch($acao) {
             if ($_SESSION['NIVEL'] == 'G'|| $_SESSION['NIVEL'] == 'U' ) {
 
             $MenuTopo .= ' <li class="nav-item">
-                                       <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+                                       <a class="nav-link btnGerenciar"  href="#" >
                                            <i class="fa fa-bell-o" id="QtdVenc"></i>
                                        </a>   
                            </li>';
