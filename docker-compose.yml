@@ -44,7 +44,7 @@ services:
       - app-network
 
   db:
-    image: "mariadb:latest"
+    image: "mariadb:10.1"
     restart: unless-stopped
     command: --sql-mode='' --innodb_strict_mode=OFF
     tty: true
