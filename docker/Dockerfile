@@ -51,7 +51,7 @@ ENV LC_ALL pt_BR.UTF-8
 RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
 ## Instalar PHP Extensions
-RUN docker-php-ext-install intl mysql mysqli pdo-mysql bcmath zip exif pcntl
+RUN docker-php-ext-install intl mysql mysqli pdo_mysql bcmath zip exif pcntl
 #RUN docker-php-source extract
 #RUN pecl install xdebug-2.5.5
 #RUN docker-php-ext-enable xdebug
