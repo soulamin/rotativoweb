@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^(www.)?genera.org.br$ [NC]
+RewriteCond %{REQUEST_URI} !genera/ [NC]
+RewriteRule ^(.*)$ /genera/$1 [L]
+
+
+

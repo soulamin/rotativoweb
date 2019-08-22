@@ -1,0 +1,358 @@
+<?php
+/*
+**----------------------------Não Apagar esta Seção -------------------------
+**	Paginator 
+**	Paginação de resultados de consulta com PHP e MySQL
+**
+**	Versão 1.6.3
+**
+**	Nome do arquivo	:
+**		paginatorbr.inc.php
+**
+**	Autor/Tradutor	:
+**		Jorge Pinedo Rosas (Autor)
+**		Com a colaboração dos usuário do fórum de PHP do www.forosdelweb.com
+**		Especialmente de dooky que postou a base desse script.
+**      
+**      Jonathan Lamim Antunes (Tradutor)
+**      Profissional de Informática desde 2004, atua na área de desenvolvimento web.
+**
+**	Descrição :
+**      Retorna o resultado de uma consulta dividido em páginas e uma barra de navegação para as mesmas		
+**      Este script foi escrito com fins didáticos, por isso está todo comentado
+**
+**	Licença : 
+**		GPL com as seguintes extensões:
+** 			*Use-o com o fim que quiser (pessoal ou lucrativo).
+**			*Se encontrar erros no código, ou melhorá-lo, envie-me um e-mail (lamim.informatica@gmail.com) informando.
+**			*Este script não possui nenhuma garantia. Os criadores não se responsabilizam pelo mau uso do script ou falhas do     **           mesmo. 
+**
+**----------------------------------------------------------------------*/
+
+/**
+ * Variáveis que podem ser definidas antes de incluir o script via inlude():
+ * ------------------------------------------------------------------------
+ * $_pagi_sql 					OBRIGATÓRIA.	Deve conter uma instrução SQl válida (e sem a cláusula "LIMIT").
+ 
+ * $_pagi_cuantos				OPCIONAL.		(Inteiro) Número de resultados que queremos obter por página.
+ *                              Se não for definido um valor, será 20, que é o valor padrão.
+											
+ * $_pagi_nav_num_enlaces		OPCIONAL		(Inteiro) Quantidade de links(páginas) mostrados na barra de navegação. 
+ *                              Por padrão são mostrados todos.
+											
+ * $_pagi_mostrar_errores		OPCIONAL		(Booleano) Define se são mostrados ou não os erros de MySQL que venham a surgir.
+ *                              Por padrão está como "true".
+											
+ * $_pagi_propagar				OPCIONAL       (Array) Contém os nomes das variáveis que se quer enviar pela URL.
+ *                              Por padrão são enviadas todas as que já venham pela URL(GET).
+
+ * $_pagi_conteo_alternativo	OPCIONAL(Booleano) Define se os registros são contados pelo PHP com mysql_num_rows()(true) ou pelo *                              MySQL, com COUNT (*)(false). Por padrão está em "false". 
+ *                              É recomendado que seja mantido com false, a não ser que aconteçam erros de contagem ou resultados * *                             inesperados. 
+
+ * $_pagi_separador				OPCIONAL		Símbolo que separa os links numéricos na barra de navegação entre as páginas.
+ 								Por padrão se utiliza " | ".
+								
+ * $_pagi_nav_estilo			OPCIONAL		Contém o nome do estilo CSS para os links de paginação da barra de navegação.
+ *                              Por padrão não se especifica o estilo. 
+ 
+ * $_pagi_nav_anterior			OPCIONAL       Contém o que deve aparecer como link para a página anterior. Pode ser uma tag <img>.
+                                Por padrão se utiliza "&laquo; Anterior".
+								
+ * $_pagi_nav_siguiente			OPCIONAL		Contém o que deve aparecer como link para a próxima página. Pode ser uma tag <img>.
+                                Por padrão se utiliza "Próxima &raquo;".
+								
+ * $_pagi_nav_primera			OPCIONAL        Contém o que deve aparecer como link para a primeira página. Pode ser uma tag <img>
+                                Por padrão se utiliza "&laquo;&laquo; Primeira".
+								
+ * $_pagi_nav_ultima			OPCIONAL		Contém o que deve aparecer como link para a última página. Pode ser uma tag <img>.
+                                Por padrão se utiliza "Última &raquo;&raquo;".
+--------------------------------------------------------------------------
+*/
+
+
+/*
+ * Verificação dos parâmetros obrigatórios e opcionais
+ *------------------------------------------------------------------------
+ */
+ if(empty($_pagi_sql)){
+	// Se não for definido $_pagi_sql... erro grave!
+	// Este erro é apresentado assim (já que não é um erro de mysql)
+	die("<b>Mensagem de Erro: </b>A variável \$_pagi_sql não foi definida.");
+ }
+ 
+ if(empty($_pagi_cuantos)){
+	// Se não for especificado um valor para a variável
+	// $_pagi_cuantos, o número de registros por página será 20, que é o padrão.
+	$_pagi_cuantos = 20;
+ }
+ 
+ if(!isset($_pagi_mostrar_errores)){
+	// Se não for definido um valor para
+	// $_pagi_errores será por padrão true. (os erros serão apresentados na tela)
+	$_pagi_mostrar_errores = true;
+ }
+
+ if(!isset($_pagi_conteo_alternativo)){
+	// Se não for especificado o tipo de contagem de registros
+	// será realizada contagem pelo mysql usando COUNT(*)
+	$_pagi_conteo_alternativo = false;
+ }
+ 
+ if(!isset($_pagi_separador)){
+	// Se não for definido um separador
+	// o separador utilizado será o padrão.
+	$_pagi_separador = " &nbsp; ";
+ }
+ 
+  if(isset($_pagi_nav_estilo)){
+	// Se for definido um estilo para os links, será gerado o atributo "class" para o link
+	$_pagi_nav_estilo_mod = "class=\"$_pagi_nav_estilo\"";
+ }else{
+ 	// Se não for definido, será utilizado como vazio.
+ 	$_pagi_nav_estilo_mod = "";
+ }
+ 
+ if(!isset($_pagi_nav_anterior)){
+	// Se não for definido um símbolo ou imagem para a opção "Anterior"
+	// Será por padrão o descrito abaixo.
+	$_pagi_nav_anterior = "&laquo; Anterior";
+ } 
+ 
+ if(!isset($_pagi_nav_siguiente)){
+	// Se não for definido um símbolo ou imagem para a opção "Próxima"
+	// Será por padrão o descrito abaixo.
+	$_pagi_nav_siguiente = "Próxima &raquo;";
+ } 
+
+ if(!isset($_pagi_nav_primera)){
+	// Se não for definido um símbolo ou imagem para a opção "Primeira"
+	// Será por padrão o descrito abaixo.
+	$_pagi_nav_primera = "&laquo;&laquo; Primeira";
+ } 
+ 
+ if(!isset($_pagi_nav_ultima)){
+	// Se não for definido um símbolo ou imagem para a opção "Última"
+	// Será por padrão o descrito abaixo.
+	$_pagi_nav_ultima = "&Uacute;ltima &raquo;&raquo;";
+ } 
+ 
+//------------------------------------------------------------------------
+
+
+/*
+ * Estabelecimento da página atual
+ *------------------------------------------------------------------------
+ */
+ if (empty($_GET['_pagi_pg'])){
+	// Se não houver sido clicado em nenhuma página específica
+	// Ou seja, se a primeira vez que se executa o script
+    	// $_pagi_actual é a página atual-->será por padrão a primeira.
+	$_pagi_actual = 1;
+ }else{
+	// Se foi pedido uma página específica:
+	// A página atual será a que foi pedida.
+    	$_pagi_actual = $_GET['_pagi_pg'];
+ }
+//------------------------------------------------------------------------
+
+
+/*
+ * Estabelecendo o número de páginas e o total de registros.
+ *------------------------------------------------------------------------
+ */
+ // Contamos o total de registros no BD (para saber quantas páginas serão)
+ // A forma de se fazer essa contagem dependerá da variável $_pagi_conteo_alternativo
+ if($_pagi_conteo_alternativo == false){
+ 	$_pagi_sqlConta = eregi_replace("select[[:space:]](.*)[[:space:]]from", "SELECT COUNT(*) FROM", $_pagi_sql);
+ 	$_pagi_result2 = mysql_query($_pagi_sqlConta);
+	// Se ocorreu erros e foram mostrados, a exibição dos erros está ativada
+ 	if($_pagi_result2 == false && $_pagi_mostrar_errores == true){
+		die (" Erro de contagem de registros: $_pagi_sqlConta. Mysql informa: <b>".mysql_error()."</b>");
+ 	}
+ 	$_pagi_totalReg = mysql_result($_pagi_result2,0,0);//total de registros
+ }else{
+	$_pagi_result3 = mysql_query($_pagi_sql);
+	// Se ocorreu erros e foram mostrados, a exibição dos erros está ativada
+ 	if($_pagi_result3 == false && $_pagi_mostrar_errores == true){
+		die (" Erro na contagem alternativa de registros: $_pagi_sql. Mysql informa: <b>".mysql_error()."</b>");
+ 	}
+	$_pagi_totalReg = mysql_num_rows($_pagi_result3);
+ }
+ // Calculamos o número de páginas (retornará um decimal)
+ // com ceil() arredondamos e $_pagi_totalPags será o número total (inteiro) de páginas que teremos
+ $_pagi_totalPags = ceil($_pagi_totalReg / $_pagi_cuantos);
+
+//------------------------------------------------------------------------
+
+
+/*
+ * Envio das variáveis pela URL.
+ *------------------------------------------------------------------------
+ */
+ // A idéia é passar também nos links as variáveis recebidas pela URL.
+ $_pagi_enlace = $_SERVER['PHP_SELF'];
+ $_pagi_query_string = "?";
+ 
+ if(!isset($_pagi_propagar)){
+ 	//Se não foi definido que variáveis serão enviadas, será enviado o $_GET (por compatibilidade com versões anteriores)
+	//Todo menos a variável _pagi_pg
+	if (isset($_GET['_pagi_pg'])) unset($_GET['_pagi_pg']); // Eliminamos essa variável do $_GET
+	$_pagi_propagar = array_keys($_GET);
+ }elseif(!is_array($_pagi_propagar)){
+	// Se $_pagi_propagar não for um array... erro grave!
+	die("<b>PaginatorBR informa: </b>A variável \$_pagi_propagar deve ser um array");
+ }
+ // Este foreach foi retirado da Classe Paginado de webstudio
+ // (http://www.forosdelweb.com/showthread.php?t=65528)
+ foreach($_pagi_propagar as $var){
+ 	if(isset($GLOBALS[$var])){
+		// Se a variável é global ao script
+		$_pagi_query_string.= $var."=".$GLOBALS[$var]."&";
+	}elseif(isset($_REQUEST[$var])){
+		// Se não é global (ou register globals está em OFF)
+		$_pagi_query_string.= $var."=".$_REQUEST[$var]."&";
+	}
+ }
+
+ // Enviamos a isntrução SQl pela URL.
+ $_pagi_enlace .= $_pagi_query_string;
+ 
+//------------------------------------------------------------------------
+
+
+/*
+ * Geração dos lnks de paginação.
+ *------------------------------------------------------------------------
+ */
+ // A variável $_pagi_navegacion conterá os links para as páginas.
+ $_pagi_navegacion_temporal = array();
+ if ($_pagi_actual != 1){
+	// Se não estamos na página 1. Colocamos o link "primeira"
+	$_pagi_url = 1; //será o número da página que linkamos
+	$_pagi_navegacion_temporal[] = "<a ".$_pagi_nav_estilo_mod." href='".$_pagi_enlace."_pagi_pg=".$_pagi_url."'>$_pagi_nav_primera</a>";
+
+	// Se não estamos na página 1. Colocamos o link "anterior"
+	$_pagi_url = $_pagi_actual - 1; //será o número da página que linkamos
+	$_pagi_navegacion_temporal[] = "<a ".$_pagi_nav_estilo_mod." href='".$_pagi_enlace."_pagi_pg=".$_pagi_url."'>$_pagi_nav_anterior</a>";
+ }
+ 
+ // A variável $_pagi_nav_num_enlaces serve para definir quantos links com 
+ // números de páginas serão mostrados.
+ // Obs: sempre será mostrado um número ímpar de links. Mais informações na documentação.
+ 
+ if(!isset($_pagi_nav_num_enlaces)){
+	// Se não foi definida a variável $_pagi_nav_num_enlaces
+	// Serão mostrados todos os números de páginas nos links.
+	$_pagi_nav_desde = 1;//Desde la primera
+	$_pagi_nav_hasta = $_pagi_totalPags;//até a última
+ }else{
+	// Se foi definida a variável $_pagi_nav_num_enlaces
+	// Calculamos o intervalo para dividir e somar a partir da página atual
+	$_pagi_nav_intervalo = ceil($_pagi_nav_num_enlaces/2) - 1;
+	
+	// Calculamos a partir de que número de página será mostrado
+	$_pagi_nav_desde = $_pagi_actual - $_pagi_nav_intervalo;
+	// Calculamos até que número de página será mostrado
+	$_pagi_nav_hasta = $_pagi_actual + $_pagi_nav_intervalo;
+	
+	// Ajustamos os valores anteriores caso sejam resultados inválidos
+	
+	// Se $_pagi_nav_desde for um número negativo
+	if($_pagi_nav_desde < 1){
+		// O subtraímos a quantidade restante para manter o número de links que se quer mostrar. 
+		$_pagi_nav_hasta -= ($_pagi_nav_desde - 1);
+		// Establecemos $_pagi_nav_desde como 1.
+		$_pagi_nav_desde = 1;
+	}
+	// Se $_pagi_nav_hasta for um número maior que o total de páginas
+	if($_pagi_nav_hasta > $_pagi_totalPags){
+		// O subtraímos a quantidade excedida ao começao para manter o número de links que se quer mostrar.
+		$_pagi_nav_desde -= ($_pagi_nav_hasta - $_pagi_totalPags);
+		// Establecemos $_pagi_nav_hasta como o total de páginas.
+		$_pagi_nav_hasta = $_pagi_totalPags;
+		// Fazemos o último ajuste verificando que ao enviar $_pagi_nav_desde não haja um valor inválido.
+		if($_pagi_nav_desde < 1){
+			$_pagi_nav_desde = 1;
+		}
+	}
+ }
+
+ for ($_pagi_i = $_pagi_nav_desde; $_pagi_i<=$_pagi_nav_hasta; $_pagi_i++){//Da página 1 até a última página ($_pagi_totalPags)
+	if ($_pagi_i == $_pagi_actual) {
+		// Se o número de página é o atual ($_pagi_actual). Escreve-se o número, mas sem link e em negrito.
+		$_pagi_navegacion_temporal[] = "<span ".$_pagi_nav_estilo_mod.">$_pagi_i</span>";
+	}else{
+		// Se for qualquer outro. Se escreve o link e o númeor da página.
+		$_pagi_navegacion_temporal[] = "<a ".$_pagi_nav_estilo_mod." href='".$_pagi_enlace."_pagi_pg=".$_pagi_i."'>".$_pagi_i."</a>";
+	}
+ }
+
+ if ($_pagi_actual < $_pagi_totalPags){
+	// Se não estamos na última página. Colocamos o link "Seguinte"
+	$_pagi_url = $_pagi_actual + 1; //será o número da página que linkamos
+	$_pagi_navegacion_temporal[] = "<a ".$_pagi_nav_estilo_mod." href='".$_pagi_enlace."_pagi_pg=".$_pagi_url."'>$_pagi_nav_siguiente</a>";
+
+	// Se não estamos na última página. Colocamos o link "Última"
+	$_pagi_url = $_pagi_totalPags; //será o número da página que linkamos
+	$_pagi_navegacion_temporal[] = "<a ".$_pagi_nav_estilo_mod." href='".$_pagi_enlace."_pagi_pg=".$_pagi_url."'>$_pagi_nav_ultima</a>";
+ }
+ $_pagi_navegacion = implode($_pagi_separador, $_pagi_navegacion_temporal);
+
+//------------------------------------------------------------------------
+
+
+/*
+ * Obtenção dos resgistros que serão mostrados na página atual.
+ *------------------------------------------------------------------------
+ */
+ // Calculamos a partir de qué registro será mostrado na página
+ // Lembre que o contatdor começa em ZERO.
+ $_pagi_inicial = ($_pagi_actual-1) * $_pagi_cuantos;
+ 
+ // Consulta SQL. Retorna $cantidad registros começando a partir de $_pagi_inicial
+ $_pagi_sqlLim = $_pagi_sql." LIMIT $_pagi_inicial,$_pagi_cuantos";
+ $_pagi_result = mysql_query($_pagi_sqlLim);
+ // Se ocorreu erro e for mostrado, é porque a exibição de erros está ativada
+ if($_pagi_result == false && $_pagi_mostrar_errores == true){
+ 	die ("Erro na consulta: $_pagi_sqlLim. Mysql informa: <b>".mysql_error()."</b>");
+ }
+
+//------------------------------------------------------------------------
+
+
+/*
+ * Geração da informação sobre os registros mostrados.
+ *------------------------------------------------------------------------
+ */
+ // Número do primeiro registro da página atual
+ $_pagi_desde = $_pagi_inicial + 1;
+ 
+ // Númeor do último registro da página atual.
+ $_pagi_hasta = $_pagi_inicial + $_pagi_cuantos;
+ if($_pagi_hasta > $_pagi_totalReg){
+ 	// Se estivermos na última página
+	// O último registro da página atual será igual ao número de registros.
+ 	$_pagi_hasta = $_pagi_totalReg;
+ }
+ 
+ $_pagi_info = "De $_pagi_desde at&eacute; $_pagi_hasta de um total de $_pagi_totalReg resultados";
+
+//------------------------------------------------------------------------
+
+
+/**
+ * Variáveis que ficam disponíveis após incluir o script via include():
+ * ------------------------------------------------------------------------
+ 
+ * $_pagi_result		Identificador do resultado da consulta ao BD para os registros da página atual. 
+ 				Pronto para ser passado por uma função como mysql_fetch_row(), mysql_fetch_array(), 
+				mysql_fetch_assoc(), etc.
+							
+ * $_pagi_navegacion		Variável que contem a barra de navegação com os links para as páginas de resultados.
+ 				Exemplo: "<<Primeira | <Anterior | 1 | 2 | 3 | 4 | Próxima> | Última>>".
+							
+ * $_pagi_info			Variável que contém informações sobre os registros da página atual.
+ 				Exemplo: "De 16 até 30 de um total de 123";				
+
+*/
+?>

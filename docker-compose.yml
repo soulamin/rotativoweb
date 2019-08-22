@@ -1,0 +1,60 @@
+version: "3"
+
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  dbdata:
+    driver: local
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - ./:/var/www
+      - ./docker/supervisord.conf:/etc/supervisord.conf
+      - ./docker/cron.py:/usr/local/bin/cron.py
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./docker/php/php-fpm.d/performance.conf:/usr/local/etc/php-fpm.d/www.conf
+    networks:
+      - app-network
+  webserver:
+    image: nginx:alpine
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - app
+    links:
+      - app
+    ports:
+      - "30002:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  db:
+    image: "mariadb:latest"
+    restart: unless-stopped
+    command: --sql-mode='' --innodb_strict_mode=OFF
+    tty: true
+    ports:
+#      - "30001:3306"
+    environment:
+      MYSQL_DATABASE: "brzonazul"
+      MYSQL_ROOT_PASSWORD: "Ba3lM@m9Paojn4kHK"
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    networks:
+      - app-network

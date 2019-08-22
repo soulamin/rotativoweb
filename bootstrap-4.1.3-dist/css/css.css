@@ -1,0 +1,37 @@
+#detalhesDoLoteEsquerda li, #detalhesDoLoteDireita li {
+    width:90%;
+    background:#fff;
+    padding:5px 5%;
+    margin:5px 0;
+    font-size:14px;
+}
+
+#detalhesDoLoteEsquerda li strong, #detalhesDoLoteDireita li strong {
+    font-family: 'open_sansbold';
+    font-size:14px;
+}
+
+#boxHistoricos .historicoEsquerda, #boxHistoricos .historicoDireita{
+    float:left;
+    width:50%;
+    text-align:center;
+    border-bottom:1px solid #f5f5f5;
+    padding:5px 0;
+    margin:0;
+    font-size:14px;
+    color:#c1b7b7;
+    background:#fff;
+}
+
+#boxHistoricos .vencedor{
+    font-family: 'open_sansbold';
+    color:#000;
+}
+
+#boxHistoricos h5{
+    color:#fff;
+    background:#f89724;
+    font-size:12px;
+    margin-top:25px;
+    padding:5px 10px;
+}
