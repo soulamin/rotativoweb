@@ -1,4 +1,3 @@
-
 <?php
 try{
     // Faz conex�o com banco de daddos
