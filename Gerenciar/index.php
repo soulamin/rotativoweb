@@ -14,19 +14,24 @@
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="row">
-                                    <div class=" col-md-4 col-sm-12">
-                                    <select class="form-control" id='Tipo'>
-                                        <option value="Placa" selected >PLACA</option>
-                                        <option value="codTicket">TICKET</option>
-                                    </select>
-                                        <div class="input-group ">
-                                            <input class="form-control Placa" type="text" name="Dados" id='Dados'>
-                                            <span class="input-group-append">
-                                                <button type="button" class="btn btn-info btn-flat" id="btnPesquisaPlaca"><i class="fa fa-search"></i> Pesquisar </button>
-                                            </span>
+                                            <div class=" col-md-4 col-sm-12">
+                                                <input class="form-control " type="date" name="DataEnt" id='DataEnt'>
                                         </div>
+                                        <div class=" col-md-4 col-sm-12">
+                                                <select class="form-control" id='Tipo'>
+                                                    <option value="Placa" selected >PLACA</option>
+                                                    <option value="codTicket">TICKET</option>
+                                                </select>
+                                            </div>
+                                            <div class=" col-md-4 col-sm-12">
+                                                    <div class="input-group ">
+                                                        <input class="form-control Placa" type="text" name="Dados" id='Dados'>
+                                                        <span class="input-group-append">
+                                                            <button type="button" class="btn btn-info btn-flat" id="btnPesquisaPlaca"><i class="fa fa-search"></i> Pesquisar </button>
+                                                        </span>
+                                            </div>
                                 </div>
-                                    <br>
+                                   
                                 </div>
                                 <br>
                                 <div class="row PesquisaPlaca "><br></div>
@@ -73,15 +78,81 @@
                                 </div>
                             </div>
                         </div>
-<!-------------------------------------------------------------- Modal ---------------------------------------------------------------->
+                   
+<!--------------------------------------------------------- Modal ------------------------------------------------------------------------>
+<div class="modal fade" id="ModalPgNot"  tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" >
+                                <div class="modal-content">
+                                    <div class="modal-header bg-success-gradient">
+                                        <h5 class="modal-title" id="exampleModalLabel16">Pagamento</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body ">
+                                                    <div class='row'>
+                                                    <div class="col-sm-3  text-right">
+                                                        <button class='btn btn-warning ' id="QtdTicketDia"></button>
+                                                    </div>
 
+                                                        <div class="col-sm-3">
+                                                        <input  type="hidden" id='IdTicket' >
+                                                            <label>Hora Ent. </label>
+                                                            <input class="form-control " type="text" id='HoraEnt' disabled >
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <label>Hora Saída </label>
+                                                            <input class="form-control " type="text" id='HoraSaida' disabled >
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <label>Pecorrido  </label>
+                                                            <input class="form-control " type="text" id='Tempo' disabled >
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <label>Valor  </label>
+                                                            <input class="form-control " type="text" id='Valor' disabled>
+                                                        </div>
+                                                    </div>
+                                                    
+                                    </div>
+                                    <div class="modal-footer  text-center">
+                                        <label>DESEJA EFETUAR PAGAMENTO ?</label>
+                                            <button  class="btn btn-lg btn-success PagarFracao"   ><i class="fa fa-check"></i> Sim </button>
+                                            <button  class="btn btn-lg btn-danger"   data-dismiss="modal" aria-label="Close" ><i class="fa fa-close"></i> Não </button>
+                                           
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+<!-------------------------------------------------------------- Modal ---------------------------------------------------------------->
+<!-- Modal -->
+<div class="modal fade" id="ConfirmaLiberacao"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success-gradient">
+                <h5 class="modal-title" id="exampleModalLabel1">Informa </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+              DESEJA  TICKET DE NOTIFICAÇÃO PARA PAGAMENTO FRAÇÃO ?
+            </div>
+            <div class="modal-footer  text-center">
+            <button  class="btn btn-lg btn-success" id="btnRenovaTicket"   codigo="0"  > Sim </button>
+                <button  class="btn btn-lg btn-danger" type="submit"  data-dismiss="modal" aria-label="Close" > Não </button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
         <!-------------------------------------------------------------- Modal --------------------------------------------------------------------->
  
 <div class="modal " id="IncluirTicket" >
     <div class="modal-dialog  modal-dialog-scrollable" >
         <div class="modal-content">
                         <div class="modal-header bg-success-gradient">
-                                        <h5 class="modal-title" >Renovar Ticket </h5>
+                                        <h5 class="modal-title" > Ticket Notificado </h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -91,44 +162,24 @@
                             <form id="FrmSalvarTicket" method="post" action="" enctype="multipart/form-data">
                             <input class="form-control IdTime" type="hidden" id='Txt_DataCriacao' name='Txt_DataCriacao' readonly>
 
-                                <div class="col-md-12">
+                                <div class="col-md-12 ">
                                    <input class="form-control " id='Txt_LocalFiscal' type="hidden" name='Txt_LocalFiscal' readonly>                            
                                     <label>Placa</label>
                                     <input class="form-control " type="text" id='Txt_Placa' name='Txt_Placa' readonly>
                                 </div>
-                                    <input class="form-control" type="hidden" name='Txt_TipoVeiculo'>
-                                    <input class="form-control MarcaModelo" type="hidden" type="text" disabled>
-                                    <input class="form-control Cor" type="hidden" type="text" disabled>
-                            
-                                <div class="col-md-12">
-                                    <label>Data/Hora Entrada</label>
-                                    <input class="form-control DataHoraEnt" type="text" name='Txt_DataHoraEnt' readonly>
-                                </div>
-                                <div class="col-md-12 ">
-                                    <label class="text-primary text-lg">Período</label>
-                                </div>
-                              <div class="col-md-12 Taxas"></div>
-                                <input class="form-control" value='0' type="hidden" name='Txt_Evasao'>
-                                <input class="form-control" id="Taxas" type="hidden" name='Txt_Taxa'>
-                                <input class="form-control" id="Valor" type="hidden" name='Txt_Valor'>
-                                <div class="col-md-12">
-                                    <label>Data/Hora Saída</label>
-                                    <input class="form-control DataHoraSaida" type="text" name='Txt_DataHoraSaida' readonly>
-                                </div>
-                                    <div class="col-md-12">
-                                      <label>Forma de Pagamento</label>
-                                       <select class="form-control" name='Txt_FormaPg'>
-                                        <option value='D' selected>DINHEIRO</option>
-                                        <option value='C'>DÉBITO/CRÉDITO</option>
-                                        </select>
-                                    </div>
+                                   
+                              <div class="col-md-12 Taxas hide"></div>
+                                <input class="form-control" value='1' type="hidden" name='Txt_Evasao'>
+                                <input class="form-control" id="Taxas"  value='' type="hidden" name='Txt_Taxa'>
+                                <input class="form-control" id="Valor" value='2.00' type="hidden" name='Txt_Valor'>
+                               
                                     </div>
 
                                         <div class="modal-footer">
                                             <button class="btn btn-lg btn-success btn-block" type="submit" id="btnSalvar">
                                                 <i class="fa fa-print"></i> Imprimir </button>
                                         
-                                                <button class="btn btn-lg btn-danger btn-block" type="submit" class="close">
+                                                <button class="btn btn-lg btn-danger btn-block" type="submit"  data-dismiss="modal" aria-label="Close" class="close">
                                                 <i class="fa fa-close"></i> Cancelar </button>
                                             </form> 
                                         </div>

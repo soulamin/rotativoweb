@@ -6,7 +6,7 @@
  *
  =======================================================================================*/
  
-$(".Val").inputmask("99/9999");
+$(".Val").inputmask("99/2099");
 $(".CPF").inputmask("999.999.999-99");
 $(".Cartao").inputmask("9999.9999.9999.9999");
 $(".Telefone").inputmask("(99)9999-9999");
@@ -29,17 +29,20 @@ $(".CEP").inputmask("99999-999");
 =======================================================================================*/
 //inicializa a tabela
 $(document).ready(function() {
+	ComboboxTokenCartao();
     BotaoRecarga();
    Saldo();
+  
 });
 
 
-
-	
-		
-   
-
-
+//Botão para Excluir Cartao
+$(document).off("click", "#btnExcluir");
+$(document).on("click", "#btnExcluir", function() {
+	if (confirm("Tem certeza que deseja excluir ? ")) {
+		ExcluirCartao($('.TCartao').val());
+			}
+});
 
 //Botão para Com Valores
 $(document).off("click", ".BotaoRecarga");
@@ -47,6 +50,11 @@ $(document).on("click", ".BotaoRecarga", function() {
     SelecionarBotao($(this).attr('codigo'),$(this).attr('valor'));
 });
 
+//Botão para Com Valores
+$(document).off("change", ".TCartao");
+$(document).on("change", ".TCartao", function() {
+	TipoCartao($(this).val());
+});
 
 //Botão para  Liberar Vaga
 $(document).off("click", "#btnRenovaTicket");
@@ -62,7 +70,23 @@ $(document).on("click", "#btnRecargaPg", function() {
 		$('#FalhaDados').modal('show');
 	}else{
 		PagamentosRecarga();
+        $("#loader").modal('hide');
 	}
+
+
+   
+});
+
+//Botão para  Recarga
+$(document).off("click", "#btnRecargaTk");
+$(document).on("click", "#btnRecargaTk", function() {
+	if($('#Txt_Cod').val()=='' ){
+		$('#FalhaDados').modal('show');
+	}else{
+		PagamentosRecargaToken();
+        $("#loader").modal('hide');
+	}
+
 
    
 });
@@ -89,6 +113,7 @@ $(document).on("click", "#btnRetornar", function() {
 
 
 
+
 function BotaoRecarga() {
 
     $.post("../model/Taxa.php", {
@@ -96,6 +121,21 @@ function BotaoRecarga() {
     
     }, function(data) {
        $('.Recarga').html(data['Html']);
+    }, "json");
+
+}
+
+function ExcluirCartao(codtoken) {
+
+    $.post("../model/Recarga.php", {
+		acao : 'ExcluiToken',
+		Cod_Token : codtoken
+    
+    }, function(data) {
+		if(data['Cod_Error']==0){
+			location.reload();
+		}
+		
     }, "json");
 
 }
@@ -112,6 +152,32 @@ function ComboboxTipoArea() {
 	}, "json");
 
 }
+function TipoCartao(tipo) {
+	if(tipo=='#'){
+		$('.NToken').attr('hidden',true);
+		$('.NCartao').attr('hidden',false);
+	}else{
+		$('.NCartao').attr('hidden',true);
+		$('.NToken').attr('hidden',false);
+	}
+
+}
+
+
+
+//busca as infracao cadastrada  para a combobox
+function ComboboxTokenCartao() {
+
+	$.post('../model/Usuarios.php', {
+		acao : 'UsuarioToken'
+	}, function(data) {
+
+		$('.TCartao').html(data['Html']);
+		TipoCartao($('.TCartao').val());
+	}, "json");
+
+}
+
 
 
 function BuscaTaxaFormulario(CodTaxa) {
@@ -138,12 +204,61 @@ function BuscaTaxaFormulario(CodTaxa) {
 
 
 //Salva Pagamento
+function PagamentosRecargaToken() {
+
+	$.ajax({
+		url: '../model/Recarga.php',
+		type: 'post',
+		data: { 
+			acao        : 'RecargaToken',
+			
+				Txt_Cod           :    $('#Txt_Cod').val(),
+				Txt_Token		  :   $('.TCartao').val(),
+				Txt_Recarga       :    $('#Txt_Recarga').val()
+		},
+		dataType: 'json',
+        cache: false,
+		beforeSend: function(){
+		 // Show image container
+		 $("#loader").modal('show');
+		},
+		success:function(data){
+			// Hide image container
+
+           switch(data['Cod_Error']){
+
+			case 0 :
+				$('#PgAprovado').modal('show');
+                $("#loader").modal('hide');
+				limpacampos();
+				Saldo();
+			break;
+			case 1 :
+				$('#PgNaoAprovado').modal('show');
+                $("#loader").modal('hide');
+				limpacampos();
+				Saldo();
+			 break;
+			 case 5 :
+					$("#loader").modal('hide');
+				    window.alert('Erro na chave da Api de Pagamento!'); 
+			 break;
+		   }
+		}
+		 
+	   });
+	   $("#loader").modal('hide');
+
+	} 
+
+//Salva Pagamento
 function PagamentosRecarga() {
 
 	$.ajax({
 		url: '../model/Recarga.php',
 		type: 'post',
-		data: { acao        : 'Recarga',
+		data: { 
+			acao        : 'Recarga',
 				Txt_NomeCartao    :    $('#Txt_Nome').val(),
 				Txt_Validade      :    $('#Txt_Validade').val(),
 				Txt_Cod           :    $('#Txt_Cod').val(),
@@ -158,23 +273,27 @@ function PagamentosRecarga() {
 		},
 		success:function(data){
 			// Hide image container
-		
-			$("#loader").modal('hide');
+
            switch(data['Cod_Error']){
 
 			case 0 :
+					$("#loader").modal('hide');
 				$('#PgAprovado').modal('show');
+               
 				limpacampos();
 				Saldo();
 			break;
 			case 1 :
+					$("#loader").modal('hide');
 				$('#PgNaoAprovado').modal('show');
+                
 				limpacampos();
 				Saldo();
 			 break;
 			 case 5 :
-				window.alert('Erro na chave da Api de Pagamento!'); 
-			 break;
+					$("#loader").modal('hide');
+					window.alert('Erro na chave da Api de Pagamento!'); 			 
+					break;
 		   }
 		}
 		 

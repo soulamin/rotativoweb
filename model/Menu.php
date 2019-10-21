@@ -56,7 +56,12 @@ switch($acao) {
                                               <p>Localidade</p>
                                             </a>
                                           </li>
-                                          
+                                          <li class="nav-item ">
+                                          <a href="#"  class="nav-link btnGuardador">
+                                            <i class="nav-icon fa fa-paperclip"></i>
+                                            <p>Guardadores</p>
+                                          </a>
+                                        </li>  
                                        <li class="nav-item ">
                                             <a href="#" class="nav-link btnTaxa">
                                               <i class="nav-icon fa fa-money"></i>
@@ -80,7 +85,13 @@ switch($acao) {
                                           <i class="nav-icon fa fa-exclamation"></i>
                                           <p>Pagamento Pendente</p>
                                         </a>
-                                      </li>';
+                                      </li>
+                                      <li class="nav-item  ">
+                                      <a href="#"  class="nav-link btnGerenciar ">
+                                        <i class="nav-icon fa fa-desktop"></i>
+                                        <p>Consultar Ticket</p>
+                                      </a>
+                                    </li>       ';
 
 
                     $Tipo = $TipoPerfil;
@@ -98,7 +109,7 @@ switch($acao) {
                                               </li>                             
                                               <li class="nav-item ">
                                                 <a href="#"  class="nav-link btnTicket">
-                                                  <i class="nav-icon fa fa-file-text-o"></i>
+                                                  <i class="nav-icon fa fa-ticket"></i>
                                                   <p> Novo Ticket</p>
                                                 </a>
                                               </li>  
@@ -129,7 +140,7 @@ switch($acao) {
                                               </li>                             
                                               <li class="nav-item ">
                                                 <a href="#"  class="nav-link btnMeuTicket">
-                                                  <i class="nav-icon fa fa-file-text-o"></i>
+                                                  <i class="nav-icon fa fa-ticket"></i>
                                                   <p> Novo Ticket</p>
                                                 </a>
                                               </li>  
@@ -147,12 +158,31 @@ switch($acao) {
 
                         case 'F' :
     
-                        $MenuLateral = '<li class="nav-item ">
-                                              <a href="#"  class="nav-link btnNotificacao">
-                                                <i class="nav-icon fa fa-exclamation"></i>
-                                                <p>Notificação</p>
-                                              </a>
-                                            </li>';
+                        $MenuLateral = '  <li class="nav-item ">
+                                           <a href="#"  class="nav-link btnTicket">
+                                         <i class="nav-icon fa fa-ticket"></i>
+                                               <p> Novo Ticket</p>
+                                               </a>
+                                            </li>  
+                                             
+                                            <li class="nav-item ">
+                                          <a href="#"  class="nav-link btnGuardador">
+                                            <i class="nav-icon fa fa-paperclip"></i>
+                                            <p>Guardadores</p>
+                                          </a>
+                                        </li>  
+                                        <li class="nav-item  ">
+                                        <a href="#"  class="nav-link btnGerenciar ">
+                                          <i class="nav-icon fa fa-desktop"></i>
+                                          <p>Consultar Ticket</p>
+                                        </a>
+                                      </li>   
+                                            <li class="nav-item ">
+                                            <a href="#"  class="nav-link btnHistoricoFiscal">
+                                              <i class="nav-icon fa fa-book"></i>
+                                              <p>Histórico</p>
+                                            </a>
+                                          </li>';
     
     
                         $Tipo = $TipoPerfil;
@@ -165,8 +195,8 @@ switch($acao) {
                                      <i class="nav-icon fa fa-caret-down"> </i>
                                      </a>
                                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                                      <span class="dropdown-item dropdown-header btnAlteraSenha text-center ">ALTERAR SENHA</span>
-                                      <span   id="btnSair" class="dropdown-item dropdown-header btnAlteraSenha text-center ">SAIR </span>
+                                    <a href="#"> <span class="dropdown-item dropdown-header btnAlteraSenha text-center ">ALTERAR SENHA</span></a>
+                                    <a href="#"> <span   id="btnSair" class="dropdown-item dropdown-header  text-center ">SAIR </span></a>
                                      
                           </li>';
             if ($_SESSION['NIVEL'] == 'G'|| $_SESSION['NIVEL'] == 'U' ) {
@@ -177,7 +207,12 @@ switch($acao) {
                                        </a>   
                            </li>';
                 }
-
+                $MenuLateral .= '<li class="nav-item ">
+                                   <a href="#"  class="nav-link btnAjudaSuporte">
+                                       <i class="nav-icon fa fa-question-circle"></i>
+                                        <p>Ajuda/Suporte</p>
+                                    </a>
+                                 </li>';  
             // Tipo de Perfil Visualizador
             $Resultado['Cod_Error'] = 0;
             $Resultado['MenuTopo'] = $MenuTopo;

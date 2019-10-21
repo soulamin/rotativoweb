@@ -49,10 +49,13 @@ $(document).on("click",'.btnAtendimento', function() {
 //Botão para Ticket
 $(document).off("click",'.btnTicket');
 $(document).on("click",'.btnTicket', function() {
-   // $(this).addClass('active');
     location.href ='../Ticket/';
+});
 
-
+//Botão para Ticket
+$(document).off("click",'.btnAjudaSuporte');
+$(document).on("click",'.btnAjudaSuporte', function() {
+      location.href ='../Ajuda/';
 });
 //Botão para Cliente
 $(document).off("click",'.btnCliente');
@@ -89,10 +92,10 @@ $(document).on("click",'.btnFormaPg', function() {
     location.href ='../FormaPg/';
 });
 
-//Botão para Libera Leilao
-$(document).off("click",'.btnLiberaLeilao');
-$(document).on("click",'.btnLiberaLeilao', function() {
-    location.href ='../LiberaLeilao/';
+//Botão para Guardador
+$(document).off("click",'.btnGuardador');
+$(document).on("click",'.btnGuardador', function() {
+    location.href ='../Guardador/';
 });
 
 //Botão para Ticket

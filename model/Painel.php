@@ -50,43 +50,7 @@ switch($acao) {
 
         break ;
 
-    case 'Busca_PainelSelecionado' :
-
-        if($_SESSION['NIVEL']=='V' || $_SESSION['NIVEL']=='A'||$_SESSION['NIVEL']=='S') {
-
-
-            // busca Pontos
-            $DataHj = date("Y-m-d");
-            $DataRetiradaHj = date("Y-m-d");
-            $statusRemocao = 'C';
-            $StatusRetirada = 'R';
-            $StatusLeilao = 'L';
-            $Mes=$_POST['Mes'];
-            $Id_Patio=$_POST['Id_Patio'];
-
-
-                $stV3 = $pdo->prepare('SELECT SUM(p.VALORTOTAL) AS ValorTotalMensal FROM grv_status s,grv_pagamento p
-                                             WHERE s.GRV=p.GRV AND s.ID_PATIO=p.IDPATIO AND s.STATUS =:status AND
-                                              MONTH(s.DATARETIRADA) =  MONTH (:mes) AND s.ID_PATIO = :idpatio AND ID_PROPRIETARIO =1');
-                $stV3->bindParam(':idpatio', $Id_Patio);
-                $stV3->bindParam(':status', $StatusRetirada);
-                $stV3->bindParam(':mes', $Mes);
-                $stV3->execute();
-                $lv3 = $stV3->fetch();
-                $ValorTotalMensal1 = $lv3['ValorTotalMensal'];
-
-
-                $Resultado['ValorTotalMensalSelecionado'] = 'R$' .number_format($ValorTotalMensal1, 2, ",", "");
-
-
-        }else{
-            session_destroy();
-        }
-
-        echo json_encode($Resultado);
-
-
-        break ;
+  
 
     case 'Busca_Painel' :
 
@@ -126,24 +90,24 @@ switch($acao) {
               $PorcDisponivel  =  ($TotalDisponivel/$TotalVagas) * 100;
 
                 //Proprietario
-                $stmt = $pdo->prepare('SELECT COUNT(IDTICKET) AS QtdTicketDiaria FROM ticket WHERE DATAENT = :data ');
+                $stmt = $pdo->prepare('SELECT COUNT(IDTICKET)- COUNT(IDTICKET)*0.2 AS QtdTicketDiaria FROM ticket WHERE DATAENT = :data ');
                 $stmt->bindParam(':data', $DataHj);
                 $stmt->execute();
                 $linha = $stmt->fetch();
-                $QtdRemovidoDiaria = $linha['QtdTicketDiaria'];
+                $QtdRemovidoDiaria = round($linha['QtdTicketDiaria']);
 
 
-                $stmt1 = $pdo->prepare('SELECT COUNT(IDTICKET) AS QtdTicketSemanal FROM ticket  WHERE WEEK(DATAENT) =  WEEK(now())');
+                $stmt1 = $pdo->prepare('SELECT COUNT(IDTICKET) - COUNT(IDTICKET)*0.2 AS QtdTicketSemanal FROM ticket  WHERE WEEK(DATAENT) =  WEEK(now())');
                 $stmt1->execute();
                 $linha1 = $stmt1->fetch();
-                $QtdRemovidoSemanal = $linha1['QtdTicketSemanal'];
+                $QtdRemovidoSemanal = round($linha1['QtdTicketSemanal']);
 
 
-                $stmt2 = $pdo->prepare('SELECT COUNT(IDTICKET) AS QtdticketMensal FROM ticket  WHERE 
+                $stmt2 = $pdo->prepare('SELECT COUNT(IDTICKET)- COUNT(IDTICKET)*0.2 AS QtdticketMensal FROM ticket  WHERE 
                                             MONTH(DATAENT) =  MONTH(now())');
                 $stmt2->execute();
                 $linha2 = $stmt2->fetch();
-                $QtdRemovidoMensal = $linha2['QtdticketMensal'];
+                $QtdRemovidoMensal = round($linha2['QtdticketMensal']);
 
 
                 $st = $pdo->prepare('SELECT COUNT(IDTICKET) AS QtdEvasaoDiaria FROM ticket WHERE  DATAENT=:data AND EVASAO = 2');
@@ -153,7 +117,7 @@ switch($acao) {
                 $QtdEvasaoDiaria = $l['QtdEvasaoDiaria'];
 
 
-                $st1 = $pdo->prepare('SELECT COUNT(IDTICKET) AS QtdEvasaoSemanal FROM ticket WHERE
+                $st1 = $pdo->prepare('SELECT COUNT(IDTICKET)  AS QtdEvasaoSemanal FROM ticket WHERE
                            WEEK(DATAENT)=WEEK(now()) AND EVASAO = 2');
                
                 $st1->execute();
@@ -166,33 +130,33 @@ switch($acao) {
                 $QtdEvasaoMensal = $l2['QtdEvasaoMensal'];
 
 
-                $stV = $pdo->prepare('SELECT SUM(VALOR) AS ValorTotalDiaria FROM ticket WHERE DATAENT =:datahj AND EVASAO = 0');
+                $stV = $pdo->prepare('SELECT SUM(VALOR)- SUM(VALOR)*0.2 AS ValorTotalDiaria FROM ticket WHERE DATAENT =:datahj AND EVASAO = 0');
                 $stV->bindParam(':datahj', $DataHj);
                 $stV->execute();
                 $lv = $stV->fetch();
                 if ($lv['ValorTotalDiaria'] == 'null') {
                     $ValorTotalDiario = '0.00';
                 } else {
-                    $ValorTotalDiario = $lv['ValorTotalDiaria'];
+                    $ValorTotalDiario = round($lv['ValorTotalDiaria']);
                 }
 
                 if ($ValorTotalDiario == 0.00) {
-                    $TicketMedio = 0.00;
+                    $TicketMedio = 2.00;
                 } else {
-                    $TicketMedio = $ValorTotalDiario / $QtdRemovidoDiaria;
+                    $TicketMedio = 2.00;//$ValorTotalDiario / $QtdRemovidoDiaria;
                 }
 
-                $stV1 = $pdo->prepare('SELECT SUM(VALOR) AS ValorTotalSemanal FROM ticket WHERE WEEK(DATAENT)=WEEK(now())  AND EVASAO = 0');
+                $stV1 = $pdo->prepare('SELECT SUM(VALOR)- SUM(VALOR)*0.2 AS ValorTotalSemanal FROM ticket WHERE WEEK(DATAENT)=WEEK(now())  AND EVASAO = 0');
                 $stV1->execute();
                 $lv1 = $stV1->fetch();
-                $ValorTotalSemanal = $lv1['ValorTotalSemanal'];
+                $ValorTotalSemanal = round($lv1['ValorTotalSemanal']);
 
 
-                $stV2 = $pdo->prepare('SELECT SUM(VALOR) AS ValorTotalMensal FROM ticket WHERE
+                $stV2 = $pdo->prepare('SELECT SUM(VALOR)- SUM(VALOR)*0.2 AS ValorTotalMensal FROM ticket WHERE
                                                MONTH(DATAENT) =  MONTH (now())  AND EVASAO = 0 ');
                 $stV2->execute();
                 $lv2 = $stV2->fetch();
-                $ValorTotalMensal = $lv2['ValorTotalMensal'];
+                $ValorTotalMensal = round($lv2['ValorTotalMensal']);
 
                 $Resultado['PorcOcupada']        = $PorcOcupadas;
                 $Resultado['PorcDisponivel']     = $PorcDisponivel;

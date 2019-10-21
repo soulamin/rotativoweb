@@ -1,0 +1,54 @@
+memory_limit = 512M
+post_max_size = 128M
+short_open_tag = On
+error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+;error_reporting = E_ALL
+display_errors = Off
+display_startup_errors = Off
+log_errors = On
+log_errors_max_len = 4096
+report_memleaks = On
+html_errors = On
+default_charset = "UTF-8"
+date.timezone = America/Sao_Paulo
+default_mimetype = "text/html"
+upload_max_filesize = 128M
+max_file_uploads = 20
+
+[intl]
+intl.default_locale = "pt_BR"
+
+[Session]
+session.save_handler = files
+;session.save_path = "/tmp"
+session.use_strict_mode = 0
+session.use_cookies = 1
+;session.cookie_secure = 1
+session.use_only_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = /
+session.cookie_domain =
+session.cookie_httponly =
+session.serialize_handler = php
+session.gc_probability = 1
+session.gc_divisor = 1000
+session.gc_maxlifetime = 1440
+session.referer_check =	
+session.cache_limiter = nocache
+session.cache_expire = 0
+session.use_trans_sid = 0
+session.hash_function = 0
+session.hash_bits_per_character = 5
+url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=fakeentry"
+
+
+;[xdebug]
+;xdebug.remote_port=9001
+;xdebug.remote_enable=1
+;xdebug.remote_connect_back=1
+;xdebug.default_enable = 1
+;xdebug.force_display_errors = 0
+;xdebug.scream = 0
+;xdebug.force_error_reporting = E_ALL

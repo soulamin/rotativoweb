@@ -69,10 +69,7 @@
 
                         <form method="post" action="../RelatorioMensal/index.php" enctype="multipart/form-data">
                            <div class="row">
-                            <div class="col-md-4">
-                                <label>Fiscal</label>
-                                <select class="form-control Fiscal" name='Txt_Fiscal'></select>
-                            </div>    
+                           
                             <div class="col-md-2">
                                 <label>Data Inicial</label>
                                 <input class="form-control" type="date" name='Txt_DataInicial'>

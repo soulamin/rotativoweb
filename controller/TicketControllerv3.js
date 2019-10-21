@@ -76,6 +76,7 @@ $(document).on("click", "#BtnAltLocalidade", function () {
 //Botão para Salvar Cadastro
 $(document).off("click", "#btnSalvar");
 $(document).on("click", "#btnSalvar", function () {
+    $('#Txt_Evasao').val("0");
     Salva_Ticket();
 });
 
@@ -220,7 +221,7 @@ function Salva_Ticket() {
                             Android.showToast(JSON.stringify(data['Msg']));
                             Android.sendbeep("1");
                         }
-                    alert("EVASÃO CADASTRADO COM SUCESSO");
+
                     window.history.go(0);
                     //  limpacampos();
                     break;

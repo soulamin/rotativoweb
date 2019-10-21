@@ -29,7 +29,7 @@ switch($acao){
 
     case 'Combobox_localFiscal' :
     
-    if($_SESSION['NIVEL']=="U"){
+    if($_SESSION['NIVEL']=="U" || $_SESSION['NIVEL']=="F"){
         $Fiscal    ='%';
      }else{
         $Fiscal =$_SESSION['ID_USUARIO'];

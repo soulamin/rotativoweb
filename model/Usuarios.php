@@ -7,6 +7,7 @@
  * Time: 15:26
  */
 require '../fontes/conexao.php';
+require '../EnvioEmail/Enviar.php';
 session_start();
 $acao = $_POST['acao'];
 
@@ -206,7 +207,7 @@ switch ($acao) {
     case 'Busca_Usuarios_Tabela':
 
 
-        $stmt = $pdo->prepare('SELECT *  FROM usuarios ');
+        $stmt = $pdo->prepare('SELECT *  FROM usuarios WHERE NIVEL != "U" ');
 
         $executa = $stmt->execute();
         $Usuarios = array();
@@ -335,6 +336,31 @@ switch ($acao) {
 
         break;
 
+        case 'UsuarioToken':
+
+        $IdUsuario = $_SESSION['ID_USUARIO'];
+        $Status = 1;
+        $sts = $pdo->prepare('SELECT  * FROM token WHERE STATUS=:status AND ID_USUARIO=:idusuario');
+        $sts->bindParam(':idusuario', $IdUsuario);
+        $sts->bindParam(':status', $Status);
+        $sts->execute();
+        $Token ='';
+        if($sts->rowCount()>=1){
+            while($linhas = $sts->fetch()){
+            $Token .= '<option value="'.$linhas["IDTOKEN"].'">CARTÃO FINAL '.$linhas["CARTAO"].'- VAL.'.$linhas["VAL"].' </option>';
+            }
+            $Cod_Error = 0;
+        }
+        else {
+            $Cod_Error = 1;
+        }
+        $Token .= '<option value="#">Novo Cartão </option>';
+
+        $Resultado['Html'] = $Token;
+        echo json_encode($Resultado);
+
+        break;
+
 
     case 'Resetar_Senha':
 
@@ -353,10 +379,10 @@ switch ($acao) {
 
     case 'Combobox_Fiscal':
 
-        $statement = $pdo->prepare('SELECT * FROM usuarios WHERE STATUS = 1 AND NIVEL ="G" ORDER BY NOME ASC');
+        $statement = $pdo->prepare('SELECT * FROM usuarios WHERE STATUS = 1 AND NIVEL IN("G" ,"F") ORDER BY NOME ASC');
         $statement->execute();
 
-        $r = '<option value="0" >SELECIONE FISCAL</option>';
+        $r = '<option value="0" >SELECIONE GUARDADOR</option>';
         while ($linhas = $statement->fetch()) {
 
             $r .= '<option value="' . $linhas['IDUSUARIO'] . '" >' . $linhas['NOME'] . '</option>';
@@ -407,6 +433,41 @@ switch ($acao) {
         }
         $resultado['Saldo'] = $Saldo;
         $resultado['Html'] = $r;
+        echo json_encode($resultado);
+
+        break;
+
+    case 'EsqueciaSenha':
+
+        $NovaSenha = substr(md5(date('YdHis')),0,5);
+        $Email = trim($_POST['Email']);
+        $statement = $pdo->prepare('SELECT  IDUSUARIO,NOME , LOGIN FROM usuarios WHERE EMAIL =:email AND NIVEL = "U" AND STATUS = 1');
+        $statement->bindParam(':email', $Email);
+        $statement->execute();
+        if($statement->rowCount() >= 1){
+           $LinhaEmail= $statement->fetch();
+           
+             $Nome =   $LinhaEmail['NOME'];
+             $Login =  $LinhaEmail['LOGIN'];
+                $st1 = $pdo->prepare('UPDATE usuarios SET SENHA = :senha WHERE NIVEL = "U" AND EMAIL = :email');
+                $st1->bindParam(':email', $Email);
+                $st1->bindParam(':senha', md5($NovaSenha));
+                $st1->execute();
+                EnviaEmail($Nome,$Email,$Login,$NovaSenha) ;
+                $Cod_Error='0'; 
+                $Html = "<div class='alert alert-warning disable alert-dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4><i class='icon fa fa-exclamation'></i> 'Foi enviado um Email com seu Usuário e Senha Cadastrado'  </h4>
+                </div>";
+        }else{
+                $Cod_Error='1';
+                $Html = "<div class='alert alert-info disable alert-dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4><i class='icon fa fa-exclamation'></i> Não Encontramos esse Email cadastrado.  </h4>
+                </div>";
+        }
+        $resultado['Html'] =  $Html;
+        $resultado['Cod_Error'] =  $Cod_Error;
         echo json_encode($resultado);
 
         break;

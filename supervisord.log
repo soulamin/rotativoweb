@@ -1,0 +1,63 @@
+2019-08-22 11:52:48,561 INFO supervisord started with pid 1
+2019-08-22 11:52:49,564 INFO spawned: 'php-fpm' with pid 8
+2019-08-22 11:52:50,658 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-22 12:05:18,975 WARN received SIGTERM indicating exit request
+2019-08-22 12:05:18,976 INFO waiting for php-fpm to die
+2019-08-22 12:05:18,982 INFO stopped: php-fpm (exit status 0)
+2019-08-22 12:05:21,043 INFO supervisord started with pid 1
+2019-08-22 12:05:22,045 INFO spawned: 'php-fpm' with pid 8
+2019-08-22 12:05:23,067 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-22 12:07:37,443 WARN received SIGTERM indicating exit request
+2019-08-22 12:07:37,443 INFO waiting for php-fpm to die
+2019-08-22 12:07:37,448 INFO stopped: php-fpm (exit status 0)
+2019-08-22 12:07:51,418 INFO supervisord started with pid 1
+2019-08-22 12:07:52,421 INFO spawned: 'php-fpm' with pid 8
+2019-08-22 12:07:53,456 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-22 12:11:56,855 WARN received SIGTERM indicating exit request
+2019-08-22 12:11:56,855 INFO waiting for php-fpm to die
+2019-08-22 12:11:56,860 INFO stopped: php-fpm (exit status 0)
+2019-08-22 12:11:59,002 INFO supervisord started with pid 1
+2019-08-22 12:12:00,003 INFO spawned: 'php-fpm' with pid 8
+2019-08-22 12:12:01,026 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-22 12:17:31,722 WARN received SIGTERM indicating exit request
+2019-08-22 12:17:31,723 INFO waiting for php-fpm to die
+2019-08-22 12:17:31,728 INFO stopped: php-fpm (exit status 0)
+2019-08-22 12:17:33,866 INFO supervisord started with pid 1
+2019-08-22 12:17:34,868 INFO spawned: 'php-fpm' with pid 8
+2019-08-22 12:17:35,889 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-22 12:17:39,030 WARN received SIGTERM indicating exit request
+2019-08-22 12:17:39,031 INFO waiting for php-fpm to die
+2019-08-22 12:17:39,037 INFO stopped: php-fpm (exit status 0)
+2019-08-22 12:17:41,052 INFO supervisord started with pid 1
+2019-08-22 12:17:42,053 INFO spawned: 'php-fpm' with pid 8
+2019-08-22 12:17:43,075 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-27 10:07:56,476 WARN received SIGTERM indicating exit request
+2019-08-27 10:07:56,512 INFO waiting for php-fpm to die
+2019-08-27 10:07:56,522 INFO stopped: php-fpm (exit status 0)
+2019-08-27 10:07:58,680 INFO supervisord started with pid 1
+2019-08-27 10:07:59,682 INFO spawned: 'php-fpm' with pid 8
+2019-08-27 10:08:00,707 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-27 11:05:59,905 WARN received SIGTERM indicating exit request
+2019-08-27 11:05:59,905 INFO waiting for php-fpm to die
+2019-08-27 11:05:59,912 INFO stopped: php-fpm (exit status 0)
+2019-08-27 11:06:01,728 INFO supervisord started with pid 1
+2019-08-27 11:06:02,731 INFO spawned: 'php-fpm' with pid 9
+2019-08-27 11:06:04,174 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-08-28 08:59:11,390 WARN received SIGTERM indicating exit request
+2019-08-28 08:59:11,406 INFO waiting for php-fpm to die
+2019-08-28 08:59:11,412 INFO stopped: php-fpm (exit status 0)
+2019-08-28 09:00:48,711 INFO supervisord started with pid 1
+2019-08-28 09:00:49,723 INFO spawned: 'php-fpm' with pid 8
+2019-08-28 09:00:50,725 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-09-03 15:40:34,610 WARN received SIGTERM indicating exit request
+2019-09-03 15:40:34,625 INFO waiting for php-fpm to die
+2019-09-03 15:40:34,648 INFO stopped: php-fpm (exit status 0)
+2019-09-03 15:40:36,983 INFO supervisord started with pid 1
+2019-09-03 15:40:37,985 INFO spawned: 'php-fpm' with pid 8
+2019-09-03 15:40:39,012 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2019-09-11 10:18:14,660 WARN received SIGTERM indicating exit request
+2019-09-11 10:18:14,918 INFO waiting for php-fpm to die
+2019-09-11 10:18:14,925 INFO stopped: php-fpm (exit status 0)
+2019-09-11 10:20:58,143 INFO supervisord started with pid 1
+2019-09-11 10:20:59,146 INFO spawned: 'php-fpm' with pid 8
+2019-09-11 10:21:00,588 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

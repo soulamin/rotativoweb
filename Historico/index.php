@@ -13,9 +13,7 @@
                         <div class="card-body">
 
                                 <div class="row">
-                                <div class="col-md-12 text-right">
-                                <label class="btn btn btn-outline-danger" id="VlVenda"></label>
-                                </div>
+                               
                                 <div class="col-md-12 col-sm-12">
                                     <br>
                                       <table class="table table-bordered table-striped dataTable text-sm table-responsive-sm"  id="TabelaHistorico">

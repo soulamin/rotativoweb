@@ -5,10 +5,7 @@
  *
  *
  =======================================================================================*/
- $(".Placa").inputmask({
-    mask : ["AAA9999", "AAA9A99"],
-    keepStatic : true
-});
+
 var tabelaBuscaReboque = null;
 
 /*=======================================================================================
@@ -30,6 +27,7 @@ var tabelaBuscaReboque = null;
 $(document).ready(function() {
     BuscaTicket();
     BuscaTicketNotificado();
+ 
 });
 
 
@@ -39,7 +37,6 @@ $(document).on("click", ".btnLiberarVaga", function() {
    $('#ConfirmaLiberacao').modal('show');
   $('#btnRenovaTicket').attr("codigo",$(this).attr('codigo'));
    LiberarVaga($(this).attr('codigo'));
-
 });
 
 //Botão para  Modal Alterar Local
@@ -81,12 +78,6 @@ $(document).on("click", ".btnReimprimir", function() {
     Reimprimir($(this).attr('codigo'));
 });
 
-//Botão para  Evasao
-$(document).off("click", ".btnEvasao");
-$(document).on("click", ".btnEvasao", function() {
-    Evasao($(this).attr('codigo'));
-});
-
 
 //Botão para  Pagamento
 $(document).off("click", ".btnPagar");
@@ -94,27 +85,35 @@ $(document).on("click", ".btnPagar", function() {
     Pagamento($(this).attr('codigo'));
 });
 
-//Botão para Pesquisa Placa
-$(document).off("click", "#btnPesquisaPlaca");
-$(document).on("click", "#btnPesquisaPlaca", function() {
-    BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val());
+//Botão para  Evasao
+$(document).off("click", ".btnEvasao");
+$(document).on("click", ".btnEvasao", function() {
+    Evasao($(this).attr('codigo'));
 });
 
 
+//Botão para  Evasao
+$(document).off("click", ".btnPagarEvasao");
+$(document).on("click", ".btnPagarEvasao", function() {
+    VerValorPg($(this).attr('codigo'));
+});
+
+//Botão para  Evasao
+$(document).off("click", ".PagarFracao");
+$(document).on("click", ".PagarFracao", function() {
+    PagamentoFracao($('#IdTicket').val(),$('#Valor').val(),$('#HoraSaida').val());
+});
+
+//Botão para  Pagamento
+$(document).off("click", ".btnPagar");
+$(document).on("click", ".btnPagar", function() {
+    AbreModalPgNot($(this).attr('codigo'));
+});
+
 //Botão para Pesquisa Placa
-$(document).off("change", "#Tipo");
-$(document).on("change", "#Tipo", function() {
-    if($(this).val()!='Placa'){
-        limpacampos();
-        $('#Dados').removeClass('Placa');
-    }else{
-        limpacampos();
-        $('#Dados').addClass('Placa');
-        $(".Placa").inputmask({
-            mask : ["AAA9999", "AAA9A99"],
-            keepStatic : true
-        });
-    }
+$(document).off("click", "#btnPesquisaPlaca");
+$(document).on("click", "#btnPesquisaPlaca", function() {
+    BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val(),$('#DataEnt').val());
 });
 
 
@@ -140,6 +139,14 @@ function Combobox_Local() {
         $('.Local').html(data['Html']);
     }, "json");
 }
+
+//Botão para  Pagamento
+$(document).off("click", ".btnPagar");
+$(document).on("click", ".btnPagar", function() {
+    AbreModalPgNot($(this).attr('codigo'));
+    // Pagamento($(this).attr('codigo'));
+    // $('#ModalPgNot').modal('show');
+});
 /*=======================================================================================
  *
  *
@@ -221,6 +228,11 @@ function Altera_Local() {
 
 }
 
+function RetornaDataHoraAtual(){
+    var dNow = new Date();
+    var localdate =  dNow.getDate()  + '/' + (dNow.getMonth()+1) + '/' + dNow.getFullYear()  ;
+    $('#DataEnt').val(localdate);
+  }
 
 function timestamp() {
     $.post("../model/Ticket.php", {
@@ -319,7 +331,7 @@ function Salva_Ticket() {
 		url : '../model/Ticket.php',
 		data : {
 
-			acao : 'Salva_Ticket'
+			acao : 'SalvaRenovaTicket'
 		},
 		dataType : 'json',
 		success : function(data) {
@@ -380,8 +392,13 @@ function Evasao(Cod_Ticket){
         Cod_Ticket : Cod_Ticket
     }, function(data) {
         if(data['Cod_Error']==0){
+
             alert("Notificado Evasão");
             BuscaTicketNotificado();
+            BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val(),$('#DataEnt').val());
+            if (Android) {
+                Android.showToast(JSON.stringify(data['Msg']));
+            }
         }
     }, "json");
 
@@ -393,6 +410,26 @@ function Pagamento(Cod_Ticket){
         Cod_Ticket : Cod_Ticket
     }, function(data) {
         if(data['Cod_Error']==0){
+            BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val(),$('#DataEnt').val());
+            alert("Notificação Pago");
+            BuscaTicketNotificado();
+            if (Android) {
+                Android.showToast(JSON.stringify(data['Msg']));
+            }
+        }
+    }, "json");
+
+}
+
+
+function VerValorPg(Cod_Ticket){
+
+    $.post("../model/Ticket.php", {
+        acao : 'PagamentoEvasao',
+        Cod_Ticket : Cod_Ticket
+    }, function(data) {
+        if(data['Cod_Error']==0){
+            BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val(),$('#DataEnt').val());
             alert("Notificação Pago");
             BuscaTicketNotificado();
         }
@@ -402,13 +439,13 @@ function Pagamento(Cod_Ticket){
 
 
 
-function BuscaTicketPlaca(tipo,dados){
+function BuscaTicketPlaca(tipo,dados,dataent){
 
     $.post("../model/Ticket.php", {
         acao : 'Busca_TicketPlaca',
         Tipo : tipo,
-        Dados : dados 
-        
+        Dados : dados ,
+        DataEnt : dataent 
     }, function(data) {
        
             //$('.GerenciaTickets').html();
@@ -485,3 +522,38 @@ function BuscaPlaca(placa) {
 
 }
 
+//busca Pagamento de fracao
+function AbreModalPgNot(codticket) {
+    $.post('../model/Ticket.php', {
+        acao       : 'CalculaFracaoPendente',
+        Cod_Ticket : codticket
+    }, function(data) {
+        $('#ModalPgNot').modal('show');
+        $('#Valor').val(data['Valor']);
+        $('#IdTicket').val(data['IdTicket']);
+        $('#HoraEnt').val(data['HoraEnt']);
+        $('#HoraSaida').val(data['HoraSaida']);
+        $('#Tempo').val(data['Tempo']);
+        $('#QtdTicket').html(data['Status']);
+        // $('.GerenciaTickets').html(data['Html']);
+    }, "json");
+
+}
+
+function PagamentoFracao(IdTicket,Valor,HoraSaida){
+
+    $.post("../model/Ticket.php", {
+        acao : 'PagamentoFracao',
+        IdTicket : IdTicket,
+        Valor : Valor ,
+        HoraSaida : HoraSaida
+    }, function(data) {
+        if(data['Cod_Error']==0){
+            Reimprimir(IdTicket);
+            BuscaTicketNotificado();
+            $('#ModalPgNot').modal('hide');
+            BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val(),$('#DataEnt').val());
+        }
+    }, "json");
+
+}

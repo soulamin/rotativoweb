@@ -177,20 +177,31 @@ switch($acao){
     break ;
 
     case 'BotaoTaxa' :
-
+        $DataHj=date('Y-m-d');
         $Id_Transp=$_POST['IdTransp'];
-        $stmt = $pdo->prepare('SELECT * FROM taxas T  WHERE ID_TRANSP=:idtransp  AND  STATUS =1 ORDER BY QTDHORA ASC');
-        $stmt ->bindParam( ':idtransp', $Id_Transp );
+        $Placa= $_POST['Placa'];
+        //Verifico se a placa ja teve ticket hj
+        $stmt1 = $pdo->prepare('SELECT COUNT(PLACA) AS QTDPLACA  FROM ticket where PLACA like :placa AND DATAENT =:datahj');
+        $stmt1->bindParam(':placa', $Placa);
+        $stmt1->bindParam(':datahj', $DataHj);
+        $stmt1->execute();
+        $Linha1 = $stmt1->fetch();
+        $QtdTicket=$Linha1['QTDPLACA'];
+
+        if($QtdTicket >=1){
+            $botao = '<p class="text-red">Essa placa já teve ticket Hoje!</p>';
+            $stmt = $pdo->prepare('SELECT * FROM taxasadicional   WHERE   STATUS = 1 ORDER BY QTDHORA ASC');
+            
+        }else{
+            $stmt = $pdo->prepare('SELECT * FROM taxas   WHERE ID_TRANSP=:idtransp  AND  STATUS =1 ORDER BY QTDHORA ASC');
+             $stmt ->bindParam( ':idtransp', $Id_Transp );
+            $botao ='';
+        }
         $executa = $stmt->execute();
-        $botao = '';
 
         while ($linha = $stmt->fetch()) {
-            if($linha['QTDHORA']== 24){
-                $tempo ='Diária';
-            }else{
-                $tempo = $linha['QTDHORA'].'hs';
-            }
-
+           
+            $tempo = $linha['QTDHORA'].'hs';
             $botao.='<a class="BotaoTaxas btn btn-app " id="'.$linha['IDTAXA'].'"  tempo="'.$linha['QTDHORA'].'"  valor="'.$linha['VALOR'].'"  codigo="'.$linha['IDTAXA'].'">
                         <i class="fa fa-money"></i> '
                        .$tempo. '- R$ '.$linha['VALOR'].

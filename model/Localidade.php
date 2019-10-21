@@ -24,7 +24,7 @@ switch($acao){
 
         while ($linhas = $statement->fetch()) {
 
-            $r.= '<option value="' . $linhas['IDLOCALIDADE'] . '" >'  . $linhas['CEP'] .' - '. $linhas['ENDERECO'] . '</option>';
+            $r.= '<option value="' . $linhas['IDLOCALIDADE'] . '" >'. $linhas['ENDERECO'] . '</option>';
 
         }
         $resultado['Html'] = $r;
@@ -41,7 +41,7 @@ switch($acao){
 
         while ($linhas = $statement->fetch()) {
 
-            $r.= '<option value="' . $linhas['IDLOCALIDADE'] . '" >'  . $linhas['CEP'] .' - '. $linhas['ENDERECO'] . '</option>';
+            $r.= '<option value="' . $linhas['IDLOCALIDADE'] . '" >'. $linhas['ENDERECO'] . '</option>';
 
         }
         $resultado['Html'] = $r;

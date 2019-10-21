@@ -6,29 +6,8 @@
 
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="ConfirmaLiberacao"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-success-gradient">
-                <h5 class="modal-title" id="exampleModalLabel1">Informa </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-              DESEJA RENOVAR ESSE TICKET ?
-            </div>
-            <div class="modal-footer  text-center">
-            <button  class="btn btn-lg btn-success" id="btnRenovaTicket"   codigo="0"  > Sim </button>
-                <button  class="btn btn-lg btn-danger" type="submit"  data-dismiss="modal" aria-label="Close" > Não </button>
-        </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
 
-<!-- Modal -->
+<!------------------------------------------------------------ Modal ----------------------------------------------------------------------------------------------->
 <div class="modal fade" id="AlteraSenha"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -59,7 +38,7 @@
         </div>
     </div>
 </div>
-
+<!------------------------------------------------------------MODAL ------------------------------------------------------------------>
 <footer class="main-footer bg-gray">
     <div class="float-right d-none ">
         <b>Version</b> 2.0.0

@@ -51,11 +51,17 @@ $(document).on("click", ".btnEvasao", function() {
     Evasao($(this).attr('codigo'));
 });
 
-
 //Botão para  Pagamento
 $(document).off("click", ".btnPagar");
 $(document).on("click", ".btnPagar", function() {
     Pagamento($(this).attr('codigo'));
+});
+
+
+//Botão para Excluir Ticket
+$(document).off("click", ".btnExcluirTicket");
+$(document).on("click", ".btnExcluirTicket", function() {
+    ExcluirTicket($(this).attr('codigo'));
 });
 
 
@@ -195,7 +201,19 @@ function LiberarVaga(Cod_Ticket){
 	}, "json");
 
 }
+function ExcluirTicket(Cod_Ticket){
 
+    $.post("../model/Ticket.php", {
+        acao : 'ExcluirTicket',
+        Cod_Ticket : Cod_Ticket
+    }, function(data) {
+        if(data['Cod_Error']==0){
+            alert("Ticket Excluido com Sucesso");
+            BuscaHistoricoTabela();
+        }
+    }, "json");
+
+}
 
 
 function Evasao(Cod_Ticket){
@@ -211,6 +229,7 @@ function Evasao(Cod_Ticket){
     }, "json");
 
 }
+
 function Pagamento(Cod_Ticket){
 
     $.post("../model/Ticket.php", {
@@ -224,9 +243,6 @@ function Pagamento(Cod_Ticket){
     }, "json");
 
 }
-
-
-
 
 
 //Libera Veiculo do Pre Liberacao

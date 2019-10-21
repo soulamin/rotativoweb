@@ -35,7 +35,13 @@ $(document).ready(function() {
 //Botão para Pesquisa Placa
 $(document).off("click", "#btnPesquisaPlaca");
 $(document).on("click", "#btnPesquisaPlaca", function() {
-    BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val());
+    BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val(),$('#DataEnt').val());
+});
+
+//Botão para  Reimprimir
+$(document).off("click", ".btnReimprimir");
+$(document).on("click", ".btnReimprimir", function() {
+    Reimprimir($(this).attr('codigo'));
 });
 
 //Botão para Com Valores
@@ -46,12 +52,6 @@ $(document).on("click", ".BotaoTaxas", function() {
 });
 
 
-//Botão para  formulario incluir Reboque
-$(document).off("click", "#btnReboque");
-$(document).on("click", "#btnReboque", function() {
-	$('.msg').empty();
-	$('#IncluirReboque').modal('show');
-});
 
 //Botão alterar taxas no botao
 $(document).off("change", ".TipoVeiculo");
@@ -71,6 +71,12 @@ $(document).on("click", "#btnLimpar", function() {
 $(document).off("click", "#btnSalvar");
 $(document).on("click", "#btnSalvar", function() {
     Salva_Notificacao();
+});
+
+//Botão para  Pagamento
+$(document).off("click", ".btnPagar");
+$(document).on("click", ".btnPagar", function() {
+    Pagamento($(this).attr('codigo'));
 });
 
 
@@ -108,12 +114,13 @@ function instanciaTabelaBusca() {
     }
 }
 
-function BuscaTicketPlaca(tipo,dados){
+function BuscaTicketPlaca(tipo,dados,dataent){
 
     $.post("../model/Ticket.php", {
-        acao : 'Busca_TicketPlacaFiscal',
+        acao : 'Busca_TicketNotEvasao',
         Tipo : tipo,
-        Dados : dados 
+        Dados : dados,
+        DataEnt :dataent
         
     }, function(data) {
        
@@ -162,6 +169,36 @@ function Combobox_Localidade() {
 
 }
 
+
+function Reimprimir(Cod_Ticket){
+
+    $.post("../model/Ticket.php", {
+        acao : 'Reimprimir_Ticket',
+        Cod_Ticket : Cod_Ticket
+    }, function(data) {
+        if(data['Cod_Error']==0){
+            if (Android) {
+                Android.showToast(JSON.stringify(data['Msg']));
+            }
+        }
+    }, "json");
+
+}
+
+function Pagamento(Cod_Ticket){
+
+    $.post("../model/Ticket.php", {
+        acao : 'Pagamento',
+        Cod_Ticket : Cod_Ticket
+    }, function(data) {
+        if(data['Cod_Error']==0){
+            Reimprimir(Cod_Ticket);
+            alert("Notificação Pago");
+            BuscaTicketPlaca($('#Tipo').val(),$('#Dados').val(),$('#DataEnt').val());
+        }
+    }, "json");
+
+}
 //função para SalvaTicket
 function Salva_Notificacao() {
 
@@ -208,23 +245,6 @@ function ComboBox_TipoVeiculo() {
 
 }
 
-function BuscaPlaca(placa) {
-    $.get('../model/ApiVeiculo.php', {
-        placa : placa
-    }, function(data) {
-        if(data.codigoRetorno==0){
-            if(data.codigoSituacao==1){
-                alert("ATENÇÃO VEÍCULO \n" + data.situacao);
-            }
-            $(".Cor").val(data.cor);
-            $(".MarcaModelo").val(data.modelo);
 
-        }else{
-            $(".Cor").val("");
-            $(".MarcaModelo").val("");
 
-        }
-    }, "json");
-
-}
 

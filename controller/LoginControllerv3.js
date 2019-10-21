@@ -25,7 +25,9 @@ $(".CPF").inputmask("999.999.999-99");
 *
 *
 =======================================================================================*/
-
+$(document).ready(function(){
+     Cookie();
+      });
 
 
 /*=======================================================================================
@@ -46,6 +48,11 @@ $(document).on("click","#btnEntrar", function() {
 $(document).off("click","#btnSalvar");
 $(document).on("click","#btnSalvar", function() {
     SalvaUsuario();
+});
+//Botão para Entrar no sistema
+$(document).off("click","#btnEnviarEmail");
+$(document).on("click","#btnEnviarEmail", function() {
+    EsqueciSenha($('#ETxt_Email').val());
 });
 
 //Botão para Validar CPF
@@ -109,10 +116,10 @@ function logar(){
                             window.location.href = "Painel/";
                         break;
                     case 'U' :
-                            window.location.href = "Informacao/";
+                            window.location.href = "MeuTicket/";
                         break;
                     case 'F' :
-                            window.location.href = "Notificacao/";
+                            window.location.href = "Gerenciar/";
                         break;
                     case 'G' :
                             window.location.href = "Ticket/";
@@ -128,6 +135,38 @@ function logar(){
         }
         });
 }
+
+
+function Cookie(){
+    $.post("model/Login.php", {
+		acao : 'Cookie'
+	}, function(data) {
+        if (data['Cod_Error'] == 0) {
+
+            switch (data['Tipo']){
+
+                case 'A' :
+                        window.location.href = "Painel/";
+                    break;
+                case 'U' :
+                        window.location.href = "MeuTicket/";
+                    break;
+                case 'F' :
+                        window.location.href = "Gerenciar/";
+                    break;
+                case 'G' :
+                        window.location.href = "Ticket/";
+                    break;
+               
+            }
+        }  else{
+         //   limpacampos();
+           // $("#msg").html(data['html']);
+        }
+	}, "json");
+
+}
+
 
 
 //função para cadastrar Usuario
@@ -170,6 +209,27 @@ function limpacampos() {
     $("input[type=date]").val("");
 
 }
+
+function EsqueciSenha(email){
+    $.post("model/Usuarios.php", {
+		acao : 'EsqueciaSenha',
+		Email : email
+	}, function(data) {
+       
+           if(data['Cod_Error']=='1'){
+            $('#EsqueciaSenha').modal('hide'); 
+              alert("Não Encontramos esse Email cadastrado.");
+              
+           }else{
+            $('#EsqueciaSenha').modal('hide'); 
+             alert("Foi enviado um Email com seu Usuário e Senha Cadastrado");
+           }
+           window.history.go(0);
+           limpacampos();
+	}, "json");
+
+}
+
 
 //validar CPF
 function ValidaCPF(strCPF) {

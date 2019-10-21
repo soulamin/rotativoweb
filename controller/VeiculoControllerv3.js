@@ -51,7 +51,7 @@ $(document).on("click", "#btnEditar", function() {
 	BuscaVeiculoFormulario($(this).attr("codigo"));
 });
 
-//Botão para Excluir Indicador
+//Botão para Excluir Veiculo
 $(document).off("click", "#btnExcluir");
 $(document).on("click", "#btnExcluir", function() {
 

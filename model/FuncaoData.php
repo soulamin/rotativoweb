@@ -70,7 +70,3 @@
 
 	echo "$diasemana";
 }
-
-?>
-
-

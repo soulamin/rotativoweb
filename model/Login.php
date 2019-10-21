@@ -150,7 +150,25 @@ switch($acao){
 
         break;
 
+        case 'Cookie' :
+      
+                            session_start();
+                            if(isset( $_SESSION['ID_USUARIO'])){
+                                $Cod_Error = 0;
+                                $Tipo = $_SESSION['NIVEL'] ;
 
+                            }else{
+                                $Cod_Error = 1;
+                                $Tipo = '';
+                            }
+              
+        
+
+        $Resultado['Cod_Error']=$Cod_Error;
+        $Resultado['Tipo']=$Tipo;
+        echo json_encode($Resultado);
+
+        break;
 
 }
 
