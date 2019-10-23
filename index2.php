@@ -171,19 +171,16 @@
         </div>
       </div>
     
-    <!-- jQuery -->
-    <script src="plugins/jQuery/jquery.js"></script>
     <!-- Bootstrap -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
     <!-- OPTIONAL SCRIPTS -->
     <script src="dist/js/demo.js"></script>
-
     <!-- SparkLine -->
     <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
     <!-- jQuery 2.1.4 -->
-    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="plugins/jquery/jquery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- SlimScroll -->

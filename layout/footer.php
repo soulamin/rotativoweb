@@ -7,7 +7,7 @@
 </div>
 
 
-<!------------------------------------------------------------ Modal ----------------------------------------------------------------------------------------------->
+<!-- Modal -->
 <div class="modal fade" id="AlteraSenha"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -38,7 +38,7 @@
         </div>
     </div>
 </div>
-<!------------------------------------------------------------MODAL ------------------------------------------------------------------>
+
 <footer class="main-footer bg-gray">
     <div class="float-right d-none ">
         <b>Version</b> 2.0.0
@@ -48,7 +48,7 @@
 </div>
 
 <!-- jQuery -->
-<script src="../plugins/jQuery/jquery.js"></script>
+<script src="../plugins/jquery/jquery.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Select2 -->

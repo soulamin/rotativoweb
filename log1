@@ -1,0 +1,65 @@
+[33mcommit 6940c607a2bda7a4c078898d780cc0142e5bab37[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Alan Lamin <lamin.exe@gmail.com>
+Date:   Mon Oct 21 15:56:59 2019 -0300
+
+    21/10/2019 alterados
+
+[33mcommit 9be9ee58c06a76b0efee88f6c3d09f3796dc201c[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: ALAN Lamin da Silva <lamin.exe@gmail.com>
+Date:   Thu Aug 22 15:28:47 2019 -0300
+
+    Correção do Sistemas
+
+[33mcommit 2616be291c328cd7db08aa96282070ae93e358f7[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 12:22:17 2019 -0300
+
+    Fix PHP
+
+[33mcommit 19b27a5307a67dd90085318c6b0a47d9bbb6e4cb[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 12:17:22 2019 -0300
+
+    Fix PHP
+
+[33mcommit 9913751a0dcb1a134717aebb3a1217c05bf08411[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 12:11:34 2019 -0300
+
+    Fix PHP
+
+[33mcommit 1125ac54f9c2fb11d5b5d1ce264cef6d913d213f[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 12:07:22 2019 -0300
+
+    Fix PHP
+
+[33mcommit 9955d2b63b92cfd6894bcf7e19049f006f395080[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 12:04:29 2019 -0300
+
+    Fix PHP
+
+[33mcommit 51b286b533e39daaade4cce4c0ffe7ea4462deec[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 11:50:29 2019 -0300
+
+    Fix DB
+
+[33mcommit f29c8cf0a88b381f58a9189ff7f5482f9d98fa63[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 11:41:03 2019 -0300
+
+    Fix DB
+
+[33mcommit 4cc42de2b35769cdf46699386c62c2a3075f1798[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 11:33:57 2019 -0300
+
+    Add Database.sql
+
+[33mcommit d6742e6545f62355b10003cc202d39fa04d5b7ec[m
+Author: Thiago França da Silva <tfsthiagobr98@outlook.com>
+Date:   Thu Aug 22 11:19:41 2019 -0300
+
+    Initial commit
