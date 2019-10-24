@@ -37,73 +37,70 @@
 
   <div id="msg"></div>
 
-    <!------------------------------------------------------- Fim do Formulario cadastro --------------------------------------------------------------------------------------------->
-    <div class="modal fade " id="IncluirUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="exampleModalLabel">
-          <div class="modal-header bg-success-gradient">
-            <h5 class="modal-title">Cadastro de Usuário </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <form id="FrmSalvarUsuario" method="post" action="" enctype="multipart/form-data">
-                <div class="row  text-dark">
+  <!------------------------------------------------------- Fim do Formulario cadastro --------------------------------------------------------------------------------------------->
+  <div class="modal fade " id="IncluirUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" id="exampleModalLabel">
+        <div class="modal-header bg-success-gradient">
+          <h5 class="modal-title">Cadastro de Usuário </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <form id="FrmSalvarUsuario" method="post" action="" enctype="multipart/form-data">
+              <div class="row  text-dark">
 
-                  <div class="col-md-12 col-xs-12">
-                    <label>Nome</label>
-                    <input class="form-control" type="text" name='Txt_Nome'>
-                  </div>
-
-                  <div class="col-md-4 col-xs-12">
-                    <label>Email</label>
-                    <input class="form-control" type="email" name='Txt_Email'>
-                  </div>
-                  <div class="col-md-4  col-xs-12">
-                    <label>CPF</label>
-                    <input class="form-control CPF" type="text" name='Txt_Cpf'>
-                  </div>
-                  <input class="form-control Telefone" value='0' type="hidden" name='Txt_Telefone'>
-
-                  <div class="col-md-4 col-xs-6">
-                    <label>Celular</label>
-                    <input class="form-control Celular" type="text" name='Txt_Celular'>
-                  </div>
-
-                  <div class="col-md-4 col-xs-6">
-                    <label>Login</label>
-                    <input class="form-control" name='Txt_Login'>
-                  </div>
-
-                  <div class="col-md-5 col-xs-6 input-group">
-                    <label>Senha</label><br>
-                    <input class="form-control " type="password" name='Txt_Senha'>
-                    <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-eye-slash"></i></span>
-                  </div> 
-                    </div>
-
-                  <div class="col-md-4">
-                    <label>Placa</label>
-                    <input class="form-control Placa" type="text" name='Txt_Placa'>
-                  </div>
-
-                  <input class="form-control " type="hidden" value="U" name="Txt_Tipo">
-
+                <div class="col-md-12 col-xs-12">
+                  <label>Nome</label>
+                  <input class="form-control" type="text" name='Txt_Nome'>
                 </div>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-md btn-success" type="submit" id="btnSalvar">
-                <i class="fa fa-save"></i> Salvar </button>
-            </div>
-            </form>
+
+                <div class="col-md-4 col-xs-12">
+                  <label>Email</label>
+                  <input class="form-control" type="email" name='Txt_Email'>
+                </div>
+                <div class="col-md-4  col-xs-12">
+                  <label>CPF</label>
+                  <input class="form-control CPF" type="text" name='Txt_Cpf'>
+                </div>
+                <input class="form-control Telefone" value='0' type="hidden" name='Txt_Telefone'>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Celular</label>
+                  <input class="form-control Celular" type="text" name='Txt_Celular'>
+                </div>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Login</label>
+                  <input class="form-control" name='Txt_Login'>
+                </div>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Senha</label>
+                  <input class="form-control" type="password" name='Txt_Senha'>
+                </div>
+
+                <div class="col-md-4">
+                  <label>Placa</label>
+                  <input class="form-control Placa" type="text" name='Txt_Placa'>
+                </div>
+
+                <input class="form-control " type="hidden" value="U" name="Txt_Tipo">
+
+              </div>
           </div>
+          <div class="modal-footer">
+            <button class="btn btn-md btn-success" type="submit" id="btnSalvar">
+              <i class="fa fa-save"></i> Salvar </button>
+          </div>
+          </form>
         </div>
       </div>
     </div>
-    <!------------------------------------------------------- Fim do esq --------------------------------------------------------------------------------------------->
+  </div>
+  <!------------------------------------------------------- Fim do esq --------------------------------------------------------------------------------------------->
 
   <div class="login-box" style="background-color:rgba(255,253,253,0.9);">
     <div class="login-logo">
@@ -125,8 +122,12 @@
           <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-feedback">
-          <input type="password" class="form-control" id="Txt_Senha" placeholder="SENHA">          
-          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          <div class="input-group">
+            <input type="password" class="form-control Senha" id="Txt_Senha"  placeholder="SENHA">
+            <div class="input-group-append">
+              <span class="input-group-text"><a class="fa fa-eye-slash olho"></a></span>
+            </div>
+          </div>
         </div>
         <div class="row">
 
@@ -148,9 +149,9 @@
   </div>
   <!----------------------------------------------------------- Formulario de Cadastro ------------------------------------------------>
   <div class="modal fade " id="EsqueciaSenha" tabindex="-1" role="dialog" aria-labelledby="example12" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="example12">
-          <div class="modal-header bg-success-gradient">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" id="example12">
+        <div class="modal-header bg-success-gradient">
           <h5 class="modal-title">Esqueci a Senha </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -158,11 +159,11 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            
-              <div class="col-md-12 col-xs-12 text-dark">
-                <label>Digite seu email Cadastrado</label>
-                <input class="form-control" type="email" id='ETxt_Email'>
-              </div>
+
+            <div class="col-md-12 col-xs-12 text-dark">
+              <label>Digite seu email Cadastrado</label>
+              <input class="form-control" type="email" id='ETxt_Email'>
+            </div>
           </div>
           <div class="modal-footer">
             <button class="btn btn-md btn-warning" type="submit" id="btnEnviarEmail">
@@ -170,39 +171,44 @@
           </div>
         </div>
       </div>
-    
-    <!-- Bootstrap -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.js"></script>
-    <!-- OPTIONAL SCRIPTS -->
-    <script src="dist/js/demo.js"></script>
-    <!-- SparkLine -->
-    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
-    <!-- jQuery 2.1.4 -->
-    <script src="plugins/jquery/jquery-2.1.4.min.js"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- InputMask -->
-    <!-- InputMask -->
-    <script src="plugins/input-mask/jquery.inputmask.js"></script>
-    <script src="plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-    <script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
-    <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/app.min.js"></script>
-    <!-- JqueryForm -->
-    <script src="js/jquery.form.js"></script>
-    <!-- DataTables -->
-    <!-- SlimScroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
-    <script src="controller/LoginControllerv3.js"></script>
 
+      <!-- jQuery -->
+      <script src="plugins/jquery/jquery.js"></script>
+      <!-- Bootstrap -->
+      <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- AdminLTE App -->
+      <script src="dist/js/adminlte.js"></script>
+      <!-- OPTIONAL SCRIPTS -->
+      <script src="dist/js/demo.js"></script>
+
+      <!-- SparkLine -->
+      <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+      <!-- jQuery 2.1.4 -->
+      <script src="plugins/jquery/jQuery-2.1.4.min.js"></script>
+      <!-- Bootstrap 3.3.5 -->
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <!-- SlimScroll -->
+      <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+      <!-- InputMask -->
+      <!-- InputMask -->
+      <script src="plugins/input-mask/jquery.inputmask.js"></script>
+      <script src="plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+      <script src="plugins/input-mask/jquery.inputmask.extensions.js"></script>
+      <!-- FastClick -->
+      <script src="plugins/fastclick/fastclick.min.js"></script>
+      <!-- AdminLTE App -->
+      <script src="dist/js/app.min.js"></script>
+      <!-- JqueryForm -->
+      <script src="js/jquery.form.js"></script>
+      <!-- DataTables -->
+      <!-- SlimScroll -->
+      <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+      <!-- FastClick -->
+      <script src="plugins/fastclick/fastclick.min.js"></script>
+      <?php
+      $hr = time();
+      echo '<script src="controller/LoginControllerv3.js?' . $hr . '"></script>';
+      ?>
 
 </body>
 

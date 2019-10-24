@@ -85,6 +85,18 @@ $(document).on("click","#btnretorno", function() {
 });
 
 
+//Botão para Retornar
+$(document).off("click",".olho");
+$(document).on("click",".olho", function() {
+    $(this).toggleClass('fa-eye fa-eye-slash');
+    if ($(this).hasClass('fa-eye')){
+     $(".Senha").attr("type", "text");
+   }else {
+       $(".Senha").attr("type", "password");
+  }
+         
+});
+
   
 
 /*=======================================================================================

@@ -60,9 +60,13 @@
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" id="Txt_Senha"  placeholder="SENHA">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
+          <div class="input-group">
+            <input type="password" class="form-control Senha" id="Txt_Senha"  placeholder="SENHA">
+            <div class="input-group-append">
+              <span class="input-group-text"><a class="fa fa-eye-slash olho"></a></span>
+            </div>
+          </div>
+        </div>
       <div class="row">
          <!-- /.col -->
         <div class="col-md-12">
@@ -95,8 +99,10 @@
 <script src="dist/js/adminlte.js"></script>
 <!-- OPTIONAL SCRIPTS -->
 <script src="dist/js/demo.js"></script>
+
 <!-- SparkLine -->
 <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+
 <!-- SlimScroll 1.3.0 -->
 <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- ChartJS 1.0.2 -->
@@ -122,7 +128,14 @@
 <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="plugins/fastclick/fastclick.min.js"></script>
-<script src="controller/LoginControllerv3.js"></script>
+<?php
+$hr=time();
+echo '<script src="controller/LoginControllerv3.js?'.$hr.'"></script>';
+
+?>
+
+
+
 
 </body>
 </html>
