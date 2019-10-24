@@ -1,4 +1,3 @@
-
 <!------------------------------------------------------FORMULARIO  INCLUIR  Pátio------------------------------------------------------------------------------>
 
 
@@ -8,7 +7,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="AlteraSenha"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="AlteraSenha" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success-gradient">
@@ -21,11 +20,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label>Senha Atual</label>
-                        <input class="form-control" type="password" PLACEHOLDER="Senha" id="SenhaAtual" >
+                        <div class="input-group">
+                            <input type="password" class="form-control Senha" id="SenhaAtual" placeholder="SENHA">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><a class="fa fa-eye-slash olho"></a></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <label>Senha Nova</label>
-                        <input class="form-control" type="password" PLACEHOLDER="Senha" id="SenhaNova" >
+                        <div class="input-group">
+                            <input type="password" class="form-control Senha" id="SenhaNova" placeholder="SENHA">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><a class="fa fa-eye-slash olho"></a></span>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-md-12 text-right">
                         <br>
@@ -33,7 +43,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button  class="btn btn-lg btn-success" type="submit" id="BtnAltSenha" ><i class="fa fa-save"></i> Alterar </button>
+                <button class="btn btn-lg btn-success" type="submit" id="BtnAltSenha"><i class="fa fa-save"></i> Alterar </button>
             </div>
         </div>
     </div>
@@ -92,44 +102,45 @@
 
 
 <script>
-$(document).ready(function(){
-   
-    NotificaVencido();
+    $(document).ready(function() {
+
+        NotificaVencido();
     });
 
 
-        function NotificaVencido(){
-            $.post("../model/Ticket.php",{
-                    acao : 'Busca_Ticket'
-                }, function(data) {
-                    $('.GerenciaTickets').html(data['Html']);
-                    if(data['Cod_Error']>=1){
-                        var indica ='<span class="badge badge-danger navbar-badge btnGerenciar">'+ data['Cod_Error']+'</span>'
-                       
-                        $('#QtdVenc').html(indica);
-                        if (Android) {
-                            Android.sendbeep("1");
-                            //Android.showToast(JSON.stringify(data['Msg']));
+    function NotificaVencido() {
+        $.post("../model/Ticket.php", {
+                acao: 'Busca_Ticket'
+            }, function(data) {
+                $('.GerenciaTickets').html(data['Html']);
+                if (data['Cod_Error'] >= 1) {
+                    var indica = '<span class="badge badge-danger navbar-badge btnGerenciar">' + data['Cod_Error'] + '</span>'
 
-                        }
-                        
-                    }else{
-                        
-                        var indica =' ';
-                        $('#QtdVenc').html(indica);
-                        if (Android) {
-                            Android.sendbeep("0");
-                          //  Android.showToast(JSON.stringify(data['Msg']));
+                    $('#QtdVenc').html(indica);
+                    if (Android) {
+                        Android.sendbeep("1");
+                        //Android.showToast(JSON.stringify(data['Msg']));
 
-                        }
-                       
                     }
-                },
-                "json"
-            );
-        }
-        var temp=setInterval(NotificaVencido,10000);
+
+                } else {
+
+                    var indica = ' ';
+                    $('#QtdVenc').html(indica);
+                    if (Android) {
+                        Android.sendbeep("0");
+                        //  Android.showToast(JSON.stringify(data['Msg']));
+
+                    }
+
+                }
+            },
+            "json"
+        );
+    }
+    var temp = setInterval(NotificaVencido, 10000);
 </script>
 <section>
-</body>
-</html>
+    </body>
+
+    </html>
